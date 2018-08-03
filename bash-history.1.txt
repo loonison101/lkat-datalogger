@@ -1,0 +1,342 @@
+sudo apt-get install guake
+sudo gedit /etc/default/grub
+sudo apt-get install vim gedit
+sudo vim /etc/default/grub
+cat /boot/grub/grub.cfg 
+sudo add-apt-repository ppa:daniel.pavel/solaar
+sudo apt-get update
+sudo apt-get install solaar
+solaar --help
+solaar
+sudo solaar
+solaar
+solaar link
+solaar -d
+sudo apt-get install solaar-gnome3
+solaar-cli -h
+solaar-cli pair
+ls /etc/apt/
+ls /etc/apt/sources.list
+ls /etc/apt/sources.list.d
+sudo vim  /etc/apt/sources.list.d/daniel_pavel-ubuntu-solaar-artful.list 
+sudo apt-get update
+solaar-cli pair
+sudo sh -c "echo 'deb http://download.opensuse.org/repositories/home:/Horst3180/xUbuntu_16.04/ /' >> /etc/apt/sources.list.d/arc-theme.list"
+sudo apt-get update && sudo apt-get install arc-theme
+wget http://download.opensuse.org/repositories/home:Horst3180/xUbuntu_16.04/Release.key
+sudo apt-key add - < Release.key
+sudo apt-get update && sudo apt-get install arc-theme
+sudo apt install unity-tweak-tool
+unity-tweak-tool 
+uname
+uname --help
+uname -m
+uname -o
+sudo apt-get install arc-theme
+unity-tweak-tool 
+sudo apt install synaptic
+unity-tweak-tool 
+sudo apt install unity-webapps unity-webapps-service unity-webapps-common
+sudo apt install notoify-osd
+sudo apt install notify-osd
+sudo apt install overlay-scrollbar
+unity-tweak-tool 
+solaar-cli pair
+lsusb
+solaar-cli  pair
+sudo restart now
+exi
+exit
+solaar-cli pair
+echo "how does this compare to mac?"
+sudo add-apt-repository ppa:danielrichter2007/grub-customizer 
+sudo apt-get update 
+sudo apt-get install grub-customizer
+sudo apt-get update
+lsb_release -a
+sudo apt-get upgrae
+sudo apt-get upgrade
+sudo apt-get update
+sudo pip install esptool
+sudo apt-get install pip
+python3 --version
+sudo apt-get install python3-pip
+sudo pip install esptool
+sudo pip3 install esptool
+clear
+ls /dev/tty.*
+ls /dev
+ls /dev/t*
+ls /dev/tty*
+ls /dev/tty*.*
+ls /dev/tty.*
+ls
+ls Documents/
+ls Downloads/
+mv Downloads/arduino-1.8.5-linux64.tar.xz Documents/
+cd Documents/
+ls
+tar -xvf arduino-1.8.5-linux64.tar.xz 
+ls
+ls arduino-1.8.5
+cd arduino-1.8.5/
+./install.sh 
+clear
+cd ..
+l
+ls
+rm arduino-1.8.5-linux64.tar.xz 
+ls
+sudo usermod -a -G dialout $USER && sudo apt-get install git && wget https://bootstrap.pypa.io/get-pip.py && sudo python get-pip.py && sudo pip install pyserial && mkdir -p ~/Arduino/hardware/espressif && cd ~/Arduino/hardware/espressif && git clone https://github.com/espressif/arduino-esp32.git esp32 && cd esp32 && git submodule update --init --recursive && cd tools && python2 get.py
+ls
+pwd 
+pwd >> ~/espressiftoolspath.txt
+ls `
+ls ~
+ls ~/Downloads/
+ls ~/Downloads/ -l
+esptool.py --port /dev/ttyUSB0 erase_flash
+groups
+cat espressiftoolspath.txt 
+cat espressiftoolspath.txt | cd -
+cd /home/lane/Arduino/hardware/espressif/esp32/tools/
+ls
+esptool.py --port /dev/ttyUSB0 erase_flash
+esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=detect 0 ~/Downloads/adafruit-circuitpython-feather_huzzah-2.2.4.bin 
+sudo apt-get install screen
+ls /dev
+screen /dev/ttyUSB0 115200
+ls ~/Downloads/
+ls ls
+ls
+cat espressiftoolspath.txt 
+cd Arduino/hardware/espressif/esp32/tools/
+ls
+esptool.py --port /dev/ttyUSB0 erase_flash
+esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 ~/Downloads/esp32-20180308-v1.9.3-407-g250b24fe.bin 
+sudo apt-get install minicom
+minicom --baudrate 115200 --device /dev/ttyUSB0 
+groups
+sudo groups
+sudo minicom --baudrate 115200 --device /dev/ttyUSB0 
+screen /dev/ttyUSB0 115200
+sudo screen /dev/ttyUSB0 115200
+ping google.com
+sudo apt-get install shutter
+ping google.com
+sudo apt update
+sudo apt install
+sudo apt autoremove
+cd bin
+ls
+cd gopro2gpx/
+ls
+go build
+ls
+git clone https://github.com/gopro/gpmf-parser.git
+cd gpmf-parser/
+ls
+cd d
+demo/
+ls
+make gpmfdemo
+pwd
+ls
+cd demo/
+ls
+make gpmfdemo
+ls
+./gpmfdemo 
+ls /mnt
+ls /dev/sda2
+ls /media/lane
+ls /media/lane/26188D9B188D6A9F/
+ls /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1
+ls /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1 -l
+ls /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1 -lh
+./media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4 
+vlc /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4 
+sudo apt install vlc-bin
+vlc /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4 
+./gpmfdemo /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4 
+cd ../..
+git clone https://github.com/stilldavid/gopro-utils.git
+clear
+mkdir gopro-workspace
+cd gopro-
+cd gopro-workspace/
+sudo apt install ffmpeg
+clear
+ls -lh /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4
+$VIDEO=/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4
+export $VIDEO=/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4
+export $VIDEO="/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4"
+VIDEO="/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4"
+echo $VIDEO
+ffmpeg -y -i $VIDEO -codec copy -map 0:m:handler_name:" GoPro MET" -f rawvideo GOPR0001.bin
+ls $VIDEO
+ls -lh /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4
+VIDEO=/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5 Black 1/GP040136.MP4
+VIDEO="/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5 Black 1/GP040136.MP4"
+clear
+ls $VIDEO
+echo $VIDEO
+VIDEO="/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4"
+ls $VIDEO
+VIDEO=/media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4
+ls $VIDEO
+ffmpeg -y -i /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4 -codec copy -map 0:m:handler_name:" GoPro MET" -f rawvideo GOPR0001.bin
+ffmpeg -y -i /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GP040136.MP4 -codec copy -map 0:m:handler_name:" GoPro MET?" -f rawvideo GOPR0001.bin
+ls -l
+ls -lh
+go
+sudo apt install golang-go
+cd ..
+ls 
+cd gopro-utils/
+ls
+ls bin
+echo $GOPATH
+pwd
+GOPATH=/home/lane/gopro-utils/bin/
+go install gopro2json
+cd bin
+ls
+cd gopro2json/
+ls
+go build gopro2json.go 
+cd ../
+cd ..
+ls
+ls telemetry/
+ls
+mkdir src
+ls
+mv bin/ src
+ls
+mv gpmf/ src
+ls
+mv telemetry/ src/
+ls
+GOPATH=/home/lane/gopro-utils
+cd src/bin/
+ls
+cd gopro2json/
+ls
+go build gopro2json.go 
+go build gopro2json
+export GOPATH=/home/lane/gopro-utils
+go build gopro2json
+ls
+go build
+cat gopro2json.go 
+nano gopro2json.go 
+go build
+echo xboxlive friends
+unset GOPATH
+go build
+cd gopro-utils/src/bi
+cd gopro-utils/src/bin
+ls
+go build gopro2json/
+cd ~
+ls
+ls go
+mkdir go/src
+mkdir go
+cd go
+mkdir src
+ls
+cd src
+mkdir github.com
+cd github.com/
+ls
+cd stilldavid/
+ls
+cd gopro-utils/
+ls
+cd bin
+ls
+cd gopro2json/
+ls
+go build
+ls
+./gopro2json -i ~/gopro-workspace/GOPR0001.bin -o ~/gopro-workspace/GOPR0001.json
+ffmpeg -y -i /media/lane/26188D9B188D6A9F/Users/looni/Pictures/GoPro/2018-06-16/HERO5\ Black\ 1/GOPR0133.MP4 -codec copy -map 0:3 -f rawvideo ~/gopro-workspace/video.bin
+./gopro2json -i ~/gopro-workspace/video.bin -o ~/gopro-workspace/video.json
+cd ..
+cd gopro2gpx/
+go build
+cd bin
+ls
+cd gopro2gpx/
+ls
+go build
+ls
+./gopro2gpx -i ~/gopro-workspace/video.bin -o ~/gopro-workspace/video.gpx
+ls -lh
+sudo apt-get install msttcorefonts
+sudo apt-get update
+sudo apt-get upgrade
+sudo apt install brightness-controller
+sudo add-apt-repository ppa:apandada1/brightness-controller
+sudo apt install brightness-controller
+sudo apt-get update
+sudo apt install brightness-controller
+sudo apt-get install xubuntu-desktop
+sudo apt-get install xubuntu-desktop kubuntu-desktop
+ls
+pwd
+ls -l
+sudo apt-get install ubuntu-gnome-desktop
+lssub
+lsusb
+sudo apt-get update
+sudo apt-get upgrade
+ls
+cd Documents/
+ls
+git clone https://github.com/loonison101/lkat-misc.git
+cd lkat-misc/
+ls
+vim get-dev-programs.sh
+sh get-dev-programs.sh 
+sudo apt-get install curl
+sh get-dev-programs.sh 
+ls
+ls -l
+vim get-dev-programs.sh
+sh get-dev-programs.sh 
+ls
+sudo dpkg -i GitHubDesktop-linux-amd64-1.3.1.deb 
+vim .gitignore
+sudo apt-get install ttf-mscorefonts-installer
+lsusb
+cat /proc/cpuinfo 
+cat /proc/osinfo
+cat /etc/os-release 
+vim get-dev-programs.sh 
+cd Downloads/
+ls
+ls -l
+ls --help
+ls -l
+ls -l --sort time
+unzip DisplayLink\ USB\ Graphics\ Software\ for\ Ubuntu\ 4.2.zip 
+ls
+./displaylink-driver-4.2.29.run 
+sudo ./displaylink-driver-4.2.29.run 
+cd /media/lane/26188D9B188D6A9F/Users/looni/Documents/GitHub/lkat-datalogger
+ls
+git status
+python --version
+sudo apt-get install python3
+python3
+pip3 install esptool
+pip3 install esptool adafruit-ampy
+clear
+ls /dev/tty.*
+ls /dev/tt*
+esptool.py --port /dev/ttyUSB0 erase_flash
+esptool.py --port /dev/ttyUSB0 --chip esp32 write_flash -z 0x1000 adafruit-circuitpython-feather_huzzah-3.0.0.bin 
+screen /dev/ttyUSB0 115200
