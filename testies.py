@@ -2,10 +2,14 @@ import time
 #import board
 #import busio
 import adafruit_gps
-#from pyb import UART
+#from pyb import UART 
 from machine import UART
+from micropyGPS import MicropyGPS
+import utime
 
 print("starting gps code")
+
+my_gps = MicropyGPS()
 
 #RX = 12
 #TX = 27
@@ -26,10 +30,50 @@ gps.send_command('PMTK220,1000')
 
 last_print = time.time()
 while True:
-    current = time.time()
-    if current - last_print >= 10.0:
-        last_print = current
-        print(uart.readline())
+    #current = time.time()
+    #if current - last_print >= 10.0:
+    #last_print = current
+    #print(uart.readline())
+    #sentence = uart.readline()
+    #print(sentence)
+    
+    # for x in sentence:
+    #     my_gps.update(x)
+    
+    # if uart.any():
+    #     for x in uart.readline():
+    #         my_gps.update(x)
+
+    #     if not my_gps.satellite_data_updated():
+    #         print('Waiting for satellite data updated...')
+    #         continue
+        
+    #     print('Fix: {}'.format(my_gps.fix_type))
+    
+    # if uart.any():
+    #     print(uart.readline(), end='')
+    
+    
+    len = uart.any()
+    if len>0:
+        b = uart.read(len)
+        for x in b:
+            if 10 <= x <= 126:
+                stat = my_gps.update(chr(x))
+                if stat:
+                    print(stat)
+                    if not my_gps.satellite_data_updated():
+                        print('Waiting for satellite data updated...')
+                        print(my_gps.latitude_string())
+                        print(my_gps.satellites_in_use)
+                        print('Fix {}'.format(my_gps.fix_type))
+                        continue
+                    
+                    print('Fix {}'.format(my_gps.fix_type))
+    else:
+        utime.sleep_ms(100)
+
+    
     # Make sure to call gps.update() every loop iteration and at least twice
     # as fast as data comes from the GPS unit (usually every second).
     # This returns a bool that's true if it parsed new data (you can ignore it
