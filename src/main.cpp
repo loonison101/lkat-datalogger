@@ -743,6 +743,16 @@
 // and help support open source hardware & software! -ada
 #include <HardwareSerial.h>
 #include <TinyGPS++.h>
+#include <SPI.h>
+#include <mySD.h>
+
+Sd2Card card;
+SdVolume volume;
+SdFile root;
+File logFile;
+
+
+const int chipSelect = 33;  
 
 HardwareSerial MySerial(1);
 TinyGPSPlus gps;
@@ -752,6 +762,59 @@ uint32_t nextSerialTaskTs = 0;
 void setup() {
   Serial.begin(9600);
     MySerial.begin(9600, SERIAL_8N1, 16, 17);
+
+    pinMode(chipSelect, OUTPUT);
+
+    Serial.println("trying");
+
+    while (!SD.begin(33, 18, 19, 5)) {
+        Serial.println("initialization failed. Things to check:");
+        Serial.println("* is a card is inserted?");
+        Serial.println("* Is your wiring correct?");
+        Serial.println("* did you change the chipSelect pin to match your shield or module?");
+    }
+
+//     // print the type of card
+//     Serial.print("\nCard type: ");
+//     switch(card.type()) {
+//         case SD_CARD_TYPE_SD1:
+//         Serial.println("SD1");
+//         break;
+//         case SD_CARD_TYPE_SD2:
+//         Serial.println("SD2");
+//         break;
+//         case SD_CARD_TYPE_SDHC:
+//         Serial.println("SDHC");
+//         break;
+//         default:
+//         Serial.println("Unknown");
+//     }
+
+//     // print the type and size of the first FAT-type volume
+//   uint32_t volumesize;
+//   Serial.print("\nVolume type is FAT");
+//   Serial.println(volume.fatType(), DEC);
+//   Serial.println();
+  
+//   volumesize = volume.blocksPerCluster();    // clusters are collections of blocks
+//   volumesize *= volume.clusterCount();       // we'll have a lot of clusters
+//   volumesize *= 512;                            // SD card blocks are always 512 bytes
+//   Serial.print("Volume size (bytes): ");
+//   Serial.println(volumesize);
+//   Serial.print("Volume size (Kbytes): ");
+//   volumesize /= 1024;
+//   Serial.println(volumesize);
+//   Serial.print("Volume size (Mbytes): ");
+//   volumesize /= 1024;
+//   Serial.println(volumesize);
+
+  
+//   Serial.println("\nFiles found on the card (name, date and size in bytes): ");
+//   root.openRoot(volume);
+  
+//   // list all files in the card with date and size
+//   root.ls(LS_R | LS_DATE | LS_SIZE);
+
     Serial.println("i hate everything");
 }
 
@@ -839,54 +902,6 @@ static void printStr(const char *str, int len)
 
 void displayInfo()
 {
-//   Serial.print(F("Location: ")); 
-//   if (gps.location.isValid())
-//   {
-//     Serial.print(gps.location.lat(), 6);
-//     Serial.print(F(","));
-//     Serial.print(gps.location.lng(), 6);
-//   }
-//   else
-//   {
-//     Serial.print(F("INVALID"));
-//   }
-
-//   Serial.print(F("  Date/Time: "));
-//   if (gps.date.isValid())
-//   {
-//     Serial.print(gps.date.month());
-//     Serial.print(F("/"));
-//     Serial.print(gps.date.day());
-//     Serial.print(F("/"));
-//     Serial.print(gps.date.year());
-//   }
-//   else
-//   {
-//     Serial.print(F("INVALID"));
-//   }
-
-//   Serial.print(F(" "));
-//   if (gps.time.isValid())
-//   {
-//     if (gps.time.hour() < 10) Serial.print(F("0"));
-//     Serial.print(gps.time.hour());
-//     Serial.print(F(":"));
-//     if (gps.time.minute() < 10) Serial.print(F("0"));
-//     Serial.print(gps.time.minute());
-//     Serial.print(F(":"));
-//     if (gps.time.second() < 10) Serial.print(F("0"));
-//     Serial.print(gps.time.second());
-//     Serial.print(F("."));
-//     if (gps.time.centisecond() < 10) Serial.print(F("0"));
-//     Serial.print(gps.time.centisecond());
-//   }
-//   else
-//   {
-//     Serial.print(F("INVALID"));
-//   }
-
-//   Serial.println("satellites - ")
-
 printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
   printFloat(gps.hdop.hdop(), gps.hdop.isValid(), 6, 1);
   printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
@@ -910,7 +925,19 @@ void loop() {
             //Serial.write(byteFromSerial);
             // Do something
             //if (gps.encode(byteFromSerial)) {
-                displayInfo();
+                //displayInfo();
+                Serial.println("trying to write to sd card");
+                logFile = SD.open("log.txt", FILE_WRITE);
+
+                if (logFile) {
+                    Serial.println("writing to log.txt");
+                    logFile.println("big long sting man");
+                    logFile.close();
+                    Serial.println("done writing");
+                } else {
+                    Serial.println("error opening log.txt");
+                }
+                
                 
             // } else {
             //     Serial.println("got false?");
