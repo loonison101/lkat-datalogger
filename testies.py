@@ -6,10 +6,13 @@ import adafruit_gps
 from machine import UART
 from micropyGPS import MicropyGPS
 import utime
+import SensorData
 
 print("starting gps code")
 
-my_gps = MicropyGPS()
+my_gps = MicropyGPS(-4)
+serializer = SensorData.SensorDataSerializer()
+
 
 #RX = 12
 #TX = 27
@@ -17,7 +20,7 @@ RX = 16
 TX = 17
 
 #uart = UART(TX, RX, 9600, 3000)
-#uart = UART(1, 9600, baudrate=9600, rx=RX, tx=TX, timeout=10)                         # init with given baudrate
+#uart = UART(1, 9600, baudrate=9600, rx=RX, tx=TX, timeout=10)                         # init with given baudrate   
 #uart = UART(1, 9600, pins=(RX,TX))
 #uart.init(9600, bits=8, parity=None, stop=1) 
 uart = UART(2, 9600)
@@ -61,15 +64,37 @@ while True:
             if 10 <= x <= 126:
                 stat = my_gps.update(chr(x))
                 if stat:
-                    print(stat)
-                    if not my_gps.satellite_data_updated():
-                        print('Waiting for satellite data updated...')
-                        print(my_gps.latitude_string())
-                        print(my_gps.satellites_in_use)
-                        print('Fix {}'.format(my_gps.fix_type))
-                        continue
+                    #print(stat)
+                    #if not my_gps.satellite_data_updated():
+                       # print('Waiting for satellite data updated...')
+                        #continue
                     
+                    data = SensorData.SensorData()
+                    data.latitude = my_gps.latitude_string()
+                    data.longitude = my_gps.longitude_string()
+                    data.speed = my_gps.speed[1]
+                    data.altitude = my_gps.altitude
+                    data.satellites = my_gps.satellites_in_use
+
+                    data.hours = my_gps.timestamp[0]
+                    data.minutes = my_gps.timestamp[1]
+                    data.seconds = my_gps.timestamp[2]
+
+                    data.day = my_gps.date[0]
+                    data.month = my_gps.date[1]
+                    data.year = my_gps.date[2]
+
+
+                    print(serializer.serialize(data))
+                    print(my_gps.latitude_string())
+                    print(my_gps.longitude_string())
+                    print(my_gps.satellites_in_use)
                     print('Fix {}'.format(my_gps.fix_type))
+                    print('hdop {}'.format(my_gps.hdop))
+                    print('vdop {}'.format(my_gps.vdop))
+                    print('pdop {}'.format(my_gps.pdop))
+                    print(my_gps.timestamp)
+                    utime.sleep_ms(5000)
     else:
         utime.sleep_ms(100)
 
