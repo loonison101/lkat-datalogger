@@ -757,7 +757,7 @@ const int chipSelect = 33;
 HardwareSerial MySerial(1);
 TinyGPSPlus gps;
 uint32_t nextSerialTaskTs = 0;
-#define TASK_SERIAL_RATE 10000
+#define TASK_SERIAL_RATE 5000
 
 // char dataRow[1000];
 
@@ -979,10 +979,6 @@ void loop() {
 
             nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
         }
-    
-    //Write something like that
-//    MySerial.write(rand(0, 255));
 
-//delay(2000);
     
 }
