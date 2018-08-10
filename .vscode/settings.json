@@ -5,7 +5,13 @@
     },
     "files.associations": {
         "system_error": "cpp",
-        "*.tcc": "cpp"
+        "*.tcc": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "unordered_map": "cpp",
+        "unordered_set": "cpp",
+        "vector": "cpp",
+        "initializer_list": "cpp"
     },
     "python.pythonPath": "/usr/bin/python3.6"
 }
