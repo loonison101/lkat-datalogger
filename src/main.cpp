@@ -38,6 +38,11 @@ void setup() {
 
     pinMode(chipSelect, OUTPUT);
 
+    // onboard LED
+    pinMode(13, OUTPUT);
+    digitalWrite(13, HIGH);
+
+
     Serial.println("trying");
     // Serial.println("sda: " + SDA);
     // Serial.println("SCL: " + SCL);
@@ -195,6 +200,12 @@ void displayInfo()
   printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.deg()) : "*** ", 6);
 
   Serial.println();
+
+  if (!gps.location.isValid()) {
+    Serial.println("Not persisting gps, lat/long is not valid");
+    return;
+  }
+
   char buffer[1000];
   sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f", 
         gps.satellites.value(),
