@@ -38,11 +38,6 @@ void setup() {
 
     pinMode(chipSelect, OUTPUT);
 
-    // onboard LED
-    pinMode(13, OUTPUT);
-    digitalWrite(13, HIGH);
-
-
     Serial.println("trying");
     // Serial.println("sda: " + SDA);
     // Serial.println("SCL: " + SCL);
