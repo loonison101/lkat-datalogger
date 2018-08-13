@@ -19,6 +19,8 @@ uint32_t nextSerialTaskTs = 0;
 double lastLatitude = 0;
 double lastLongitude = 0;
 
+// For 2 seconds show the LED so we know we are up and running
+uint32_t statusLedLife;
 
 void setup()
 {
@@ -29,6 +31,9 @@ void setup()
   btStop();
 
   pinMode(chipSelect, OUTPUT);
+  pinMode(13, OUTPUT);
+
+  statusLedLife = millis() + 2000; 
 
   Serial.println("trying");
 
@@ -201,6 +206,12 @@ void loop()
   //     uint8_t byteFromSerial = MySerial.read();
   //     Serial.write(byteFromSerial);
   // }
+
+  if (millis() < statusLedLife) {
+    digitalWrite(13, HIGH);
+  } else {
+    digitalWrite(13, LOW);
+  }
 
   if (nextSerialTaskTs < millis())
   {
