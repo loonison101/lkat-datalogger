@@ -13,8 +13,8 @@ import (
 	"time"
 	"strconv"
 	"io"
-	"hash/adler32"
 	"strings"
+	"github.com/tkrajina/gpxgo/gpx"
 )
 
 func main() {
@@ -36,6 +36,7 @@ func main() {
 	//http.HandleFunc("/save/", saveHandler)
 	http.HandleFunc("/", getAllFilesHandler)
 	http.HandleFunc("/begin", createGpxHandler)
+	http.HandleFunc("/testies", testiesHandler)
 
 	port := 8080
 
@@ -158,39 +159,113 @@ func createGpxHandler(response http.ResponseWriter, request *http.Request) {
 		satellites, _ := strconv.ParseInt(line[0], 0, 64)
 		hdop, _ := strconv.ParseFloat(line[1], 64)
 		latitude, _ := strconv.ParseFloat(line[2],  64)
-		longitude, _ := strconv.ParseFloat(line[3], 64)
+		longitude, _ := strconv.ParseFloat(strings.Trim(line[3], " "), 64)
+
 		age, _ := strconv.ParseInt(line[4], 0,64)
 
 		month,_ := strconv.ParseInt(strings.Split(line[5], "/")[0], 0, 4)
 		day,_ := strconv.ParseInt(strings.Split(line[5], "/")[1], 0, 4)
 		year,_ := strconv.ParseInt(strings.Split(line[5], "/")[2], 0, 4)
 
-		hour,_ := strconv.ParseInt(strings.Split(line[6], "/")[0], 0, 4)
-		minute,_ := strconv.ParseInt(strings.Split(line[6], "/")[1], 0, 4)
-		second,_ := strconv.ParseInt(strings.Split(line[6], "/")[2], 0, 4)
+		hour,_ := strconv.ParseInt(strings.Split(line[6], ":")[0], 0, 4)
+		minute,_ := strconv.ParseInt(strings.Split(line[6], ":")[1], 0, 4)
+		second,_ := strconv.ParseInt(strings.Split(line[6], ":")[2], 0, 4)
 
-		altit
+		altitude,_ := strconv.ParseFloat(line[7], 64)
+		speed,_ := strconv.ParseFloat(line[8], 64)
 
-		parsedLines = append(parsedLines, CsvLine{
+		location, _ := time.LoadLocation("EST")
+
+		var newLine = CsvLine{
 			Satellites: satellites,
 			Hdop: hdop,
 			Latitude: latitude,
 			Longitude: longitude,
 			Age: age,
-			When: time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, time.UTC),
-			Altitude:
+			When: time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, location),
+			Altitude: altitude,
+			Speed: speed,
+		}
+
+		parsedLines = append(parsedLines, newLine)
+	}
+
+	newFile := gpx.GPX{
+		AuthorName: "Lane Katris",
+	}
+
+	track := gpx.GPXTrack{}
+
+	segment := gpx.GPXTrackSegment{}
+
+	for _, csvLine := range parsedLines {
+		elevation2 := new(gpx.NullableFloat64)
+		elevation2.SetValue(csvLine.Altitude)
+
+		segment.Points = append(segment.Points, gpx.GPXPoint{
+			Point: gpx.Point{
+				Latitude: csvLine.Latitude,
+				Longitude: csvLine.Longitude,
+				//Elevation: gpx.NullableFloat64{
+				//	csvLine.Altitude, true,
+				//},
+				//Elevation: gpx.NullableFloat64
+				//Elevation: elevation2,
+			},
+			Timestamp: csvLine.When,
+			//Satellites: csvLine.Satellites,
+			//Satellites: gpx.NullableInt{
+			//	int(csvLine.Satellites), true,
+			//},
+			////AgeOfDGpsData: csvLine.Age
+			//AgeOfDGpsData: gpx.NullableFloat64{
+			//	float64(csvLine.Age), true,
+			//},
 		})
 	}
 
-	json, err := json.Marshal(csvLines)
+	track.Segments = append(track.Segments, segment)
+
+	newFile.Tracks = append(newFile.Tracks, track)
+
+	fileBytes, err := newFile.ToXml(gpx.ToXmlParams{Version:"1.1", Indent: true})
 	if err != nil {
-		//log.Fatal(err)
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
-	response.Header().Set("Content-Type", "application/json")
-	response.Write(json)
+
+	ioutil.WriteFile("myfirstgpsfile.gpx", fileBytes, 0644)
+
+	//json, err := json.Marshal(newFile)
+	//if err != nil {
+	//	//log.Fatal(err)
+	//	http.Error(response, err.Error(), http.StatusInternalServerError)
+	//	return
+	//}
+	//
+	//response.Header().Set("Content-Type", "application/json")
+	//response.Write(json)
+	response.Write([]byte("done!"))
+}
+
+func testiesHandler(response http.ResponseWriter, request *http.Request) {
+	//idk, err := strconv.ParseFloat(" -81.546932", 64)
+	//
+	//if err != nil {
+	//	http.Error(response, err.Error(), http.StatusInternalServerError)
+	//	return
+	//}
+	//
+	//json, err := json.Marshal(idk)
+	//response.Header().Set("Content-Type", "application/json")
+	//response.Write(json)
+
+	//newFile := gpx.GPX{
+	//	AuthorName: "Lane Katris",
+	//}
+
+	//append(newFile.Tracks, )
 }
 
 type CsvLine struct {

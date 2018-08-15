@@ -160,22 +160,22 @@ void displayInfo()
 
   char buffer[1000];
   sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f",
-          gps.satellites.value(),
-          gps.hdop.hdop(),
-          gps.location.lat(),
-          gps.location.lng(),
-          gps.location.age(),
+          gps.satellites.value(),   // 0
+          gps.hdop.hdop(),          // 1
+          gps.location.lat(),       // 2
+          gps.location.lng(),       // 3
+          gps.location.age(),       // 4
 
-          gps.date.month(),
-          gps.date.day(),
-          gps.date.year(),
+          gps.date.month(),         // 5
+          gps.date.day(),           // 5
+          gps.date.year(),          // 5
 
-          gps.time.hour(),
-          gps.time.minute(),
-          gps.time.second(),
+          gps.time.hour(),          // 6
+          gps.time.minute(),        // 6
+          gps.time.second(),        // 6
 
-          gps.altitude.meters(),
-          gps.speed.mph()
+          gps.altitude.meters(),    // 7
+          gps.speed.mph()           // 8
 
   );
 
