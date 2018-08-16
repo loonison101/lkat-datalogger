@@ -4,9 +4,7 @@ import (
 	"log"
 	"io/ioutil"
 	"net/http"
-
 	"fmt"
-	"html/template"
 	"encoding/json"
 	"encoding/csv"
 	"bytes"
@@ -20,25 +18,16 @@ import (
 func main() {
 	log.Output(2, "Beginning LKAT DATALOGGER file processing...");
 
-
-	// If the CSV file exists, load csv,
-
-
-	// Do we have a file to process?
-	//p1 := &Page{Title: "TestPage", Body: []byte("This is a sample Page.")}
-	//p1.save()
-	//p2, _ := loadPage("TestPage")
-	//fmt.Println(string(p2.Body))
-
-	//http.HandleFunc("/", handler)
-	//http.HandleFunc("/view/", viewHandler)
-	//http.HandleFunc("/edit/", editHandler)
-	//http.HandleFunc("/save/", saveHandler)
+	log.Output(2, "Route / gives all files in current directory")
 	http.HandleFunc("/", getAllFilesHandler)
+
+	log.Output(2, "Sucks in a CSV and dumps a GPX")
 	http.HandleFunc("/begin", createGpxHandler)
+
+	log.Output(2, "/testies is used for testing")
 	http.HandleFunc("/testies", testiesHandler)
 
-	port := 8080
+	var port = 8080
 
 	log.Output(2, "HTTP listening on " + string(port) )
 	log.Fatal(http.ListenAndServe(":8080", nil))
@@ -72,81 +61,22 @@ func getAllFilesHandler(response http.ResponseWriter, request *http.Request) {
 	response.Write(json)
 }
 
-func viewHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/view/"):]
-	p, _ := loadPage(title)
-	renderTemplate(w, "view", p)
-}
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi there, I love %s!", r.URL.Path[1:])
-}
-
-func (p *Page) save() error {
-	filename := p.Title + ".txt"
-	return ioutil.WriteFile(filename, p.Body, 0600)
-}
-
-func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
-	body, err := ioutil.ReadFile(filename)
-	if err != nil {
-		return nil, err
-	}
-	return &Page{Title: title, Body: body}, nil
-}
-
-func editHandler(w http.ResponseWriter, r *http.Request) {
-	title := r.URL.Path[len("/edit/"):]
-	p, err := loadPage(title)
-	if err != nil {
-		p = &Page{Title: title}
-	}
-	renderTemplate(w, "edit", p)
-}
-func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
-	t, _ := template.ParseFiles(tmpl + ".html")
-	t.Execute(w, p)
-}
-
 type File struct {
 	Name string
 }
 
-type Page struct {
-	Title string
-	Body  []byte
-}
-
 func createGpxHandler(response http.ResponseWriter, request *http.Request) {
+
 	// Load the CSV data
 	rawCsvData, err := ioutil.ReadFile("./data.csv")
 	if err != nil {
-		//log.Fatal(err)
 		http.Error(response, err.Error(), http.StatusInternalServerError)
 		return
 	}
 
 	csvReader := csv.NewReader(bytes.NewReader(rawCsvData))
 
-	//csvLines, err := csvReader.ReadAll()
-	//if err != nil {
-	//	//log.Fatal(err)
-	//	http.Error(response, err.Error(), http.StatusInternalServerError)
-	//	return
-	//}
-
 	var parsedLines []CsvLine
-
-	//for _, line := range csvLines {
-	//	var a = line[0]
-	//
-	//
-	//	var lineToAdd = strconv.ParseInt(a, 0, 32)
-	//
-	//	parsedLines = append(parsedLines, CsvLine{
-	//		Satellites: strconv.ParseInt(line[0], 0, 32)
-	//	})
-	//}
 
 	for {
 		line, error := csvReader.Read()
