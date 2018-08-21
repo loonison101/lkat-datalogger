@@ -93,18 +93,33 @@ func createGpxHandler(response http.ResponseWriter, request *http.Request) {
 
 		age, _ := strconv.ParseInt(line[4], 0,64)
 
-		month,_ := strconv.ParseInt(strings.Split(line[5], "/")[0], 0, 4)
-		day,_ := strconv.ParseInt(strings.Split(line[5], "/")[1], 0, 4)
-		year,_ := strconv.ParseInt(strings.Split(line[5], "/")[2], 0, 4)
+		//month,_ := strconv.ParseInt(strings.Split(line[5], "/")[0], 0, 64)
+		month,_ := strconv.Atoi(strings.Split(line[5], "/")[0])//(int)strings.Split(line[5], "/")[0]
+		//day,_ := strconv.ParseInt(strings.Split(line[5], "/")[1], 0, 64)
+		day,_ := strconv.Atoi(strings.Split(line[5], "/")[1])
+		//year,_ := strconv.ParseInt(strings.Split(line[5], "/")[2], 0, 64)
+		year,_ := strconv.Atoi(strings.Split(line[5], "/")[2])
 
 		hour,_ := strconv.ParseInt(strings.Split(line[6], ":")[0], 0, 4)
+
 		minute,_ := strconv.ParseInt(strings.Split(line[6], ":")[1], 0, 4)
 		second,_ := strconv.ParseInt(strings.Split(line[6], ":")[2], 0, 4)
 
 		altitude,_ := strconv.ParseFloat(line[7], 64)
 		speed,_ := strconv.ParseFloat(line[8], 64)
 
-		location, _ := time.LoadLocation("EST")
+		location, _ := time.LoadLocation("UTC")
+
+		//dateman := fmt.Sprintf("%d-%d-%d %s", year, month, day, line[6])
+		//dateFormat := "2006-01-02 14:04:05"
+
+		//ughDate, err := time.Parse(dateman, dateFormat)
+		//if err != nil {
+		//	http.Error(response, err.Error(), http.StatusInternalServerError)
+		//	return
+		//}
+
+		daDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, location)
 
 		var newLine = CsvLine{
 			Satellites: satellites,
@@ -112,7 +127,8 @@ func createGpxHandler(response http.ResponseWriter, request *http.Request) {
 			Latitude: latitude,
 			Longitude: longitude,
 			Age: age,
-			When: time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, location),
+			When: daDate,
+			//When: ughDate,
 			Altitude: altitude,
 			Speed: speed,
 		}
