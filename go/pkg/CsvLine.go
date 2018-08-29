@@ -11,4 +11,5 @@ type CsvLine struct {
 	When       time.Time
 	Altitude   float64
 	Speed      float64
+	RawLine    string
 }
