@@ -13,5 +13,9 @@
         "vector": "cpp",
         "initializer_list": "cpp"
     },
-    "python.pythonPath": "/usr/bin/python3.6"
+    "python.pythonPath": "/usr/bin/python3.6",
+    "terminal.integrated.env.osx": {
+        "PATH": "/Users/lane/.platformio/penv/bin:/Users/lane/.platformio/penv:/Users/lane/.nvm/versions/node/v8.11.1/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/go/bin:/Users/lane/Library/Android/sdk/tools:/Users/lane/Library/Android/sdk/platform-tools",
+        "PLATFORMIO_CALLER": "vscode"
+    }
 }
