@@ -10,6 +10,7 @@ type CsvLine struct {
 	Age        int64
 	When       time.Time
 	Altitude   float64
-	Speed      float64
-	RawLine    string
+
+	Speed   float64
+	RawLine string
 }

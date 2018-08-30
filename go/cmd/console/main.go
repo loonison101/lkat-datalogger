@@ -1,68 +1,116 @@
 package main
 
 import (
+	"../../pkg"
 	"bytes"
 	"encoding/csv"
 	"flag"
 	"fmt"
+	"github.com/teris-io/shortid"
+	"github.com/tkrajina/gpxgo/gpx"
 	"io"
+	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 	"time"
+)
 
-	//"github.com/derekparker/delve/pkg/dwarf/reader"
+type GpxSplitOptions int
 
-	"../../pkg"
-	"io/ioutil"
-	"log"
+const (
+	NONE GpxSplitOptions = 1 + iota
+	DAY
 )
 
 func main() {
 
 	var csvFile string
+	var destinationFile string
+	defaultDestinationFile, _ := shortid.Generate()
 
-	//flag.StringVar(&port, "port", "8080", "The port of the http server")
-	flag.StringVar(&csvFile, "CSV File", "./LOG.8.25.18.csv", "The source CSV file path to process")
+	flag.StringVar(&csvFile, "CSV File", "../../../LOG.8.25.18.csv", "The source CSV file path to process")
+	flag.StringVar(&destinationFile, "Destination GPX file", "../../../generated/"+defaultDestinationFile+".gpx", "The destination gpx file made from the csv data")
 	flag.Parse()
 
 	log.Output(2, "Beginning LKAT DATALOGGER file processing...")
 
-	//log.Output(2, "CMD Arguments")
-	//
-	//log.Output(2, flag.Args())
-
-	//rawCsvData, err := ioutil.ReadFile("./data.csv")
-	//if err != nil {
-	//	//http.Error(response, err.Error(), http.StatusInternalServerError)
-	//	log.Panic(err)
-	//}
-
-	////dataframe.ReadCSV(ioutil.ReadAll("./data.csv"))
-	//csvBytes, err := ioutil.ReadFile(csvFile)
-	//if err != nil {
-	//	log.Panic(err)
-	//}
-
-	//df := dataframe.ReadCSV(bytes.NewReader(csvBytes))
-
-	//fmt.Println(df)
-
-	// Let's create our structs
-	//var parsedLines [] pkg.CsvLine
-
-	//sel1 := df.Select([]int{0,1})
-	//
-	//fmt.Println(sel1)
-
-	//var reader csv.Reader
-
 	var reader = getCsvReader(csvFile)
 	csvLines := createCsvLines(reader)
 
-	//fmt.Println(csvLines)
-	fmt.Println(len(csvLines))
-	lastLine := csvLines[len(csvLines)-1]
-	fmt.Println(lastLine)
+	log.Output(2, fmt.Sprintf("Loaded %d csv lines", len(csvLines)))
+
+	// Create the gpx object
+	gpxObject := createGpx(csvLines)
+
+	writeGpxFile(gpxObject, destinationFile)
+
+	absoluteDestinationFile, _ := filepath.Abs(destinationFile)
+	log.Output(2, fmt.Sprintf("Done writing gpx file to %s", absoluteDestinationFile))
+
+}
+func writeGpxFile(gpxObject gpx.GPX, destinationFile string) {
+	fileBytes, err := gpxObject.ToXml(gpx.ToXmlParams{Version: "1.1", Indent: true})
+	if err != nil {
+		log.Panic(err)
+	}
+
+	err = os.MkdirAll(filepath.Dir(destinationFile), os.ModePerm)
+	if err != nil {
+		log.Panic(err)
+	}
+	err = ioutil.WriteFile(destinationFile, fileBytes, 0644)
+
+	if err != nil {
+		log.Panic(err)
+	}
+}
+
+func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
+	newFile := gpx.GPX{
+		AuthorName: "Lane Katris",
+	}
+
+	track := gpx.GPXTrack{}
+
+	segment := gpx.GPXTrackSegment{}
+
+	for _, csvLine := range csvLines {
+		elevation2 := new(gpx.NullableFloat64)
+		elevation2.SetValue(csvLine.Altitude)
+
+		elevation3 := gpx.NullableFloat64{}
+		elevation3.SetValue(csvLine.Altitude)
+
+		segment.Points = append(segment.Points, gpx.GPXPoint{
+			Point: gpx.Point{
+				Latitude:  csvLine.Latitude,
+				Longitude: csvLine.Longitude,
+				//Elevation: NullableFloat64{
+				//	csvLine.Altitude, true,
+				//},
+				//Elevation: gpx.NullableFloat64
+				Elevation: elevation3,
+			},
+			Timestamp: csvLine.When,
+			//Satellites: csvLine.Satellites,
+			//Satellites: gpx.NullableInt{
+			//	int(csvLine.Satellites), true,
+			//},
+			////AgeOfDGpsData: csvLine.Age
+			//AgeOfDGpsData: gpx.NullableFloat64{
+			//	float64(csvLine.Age), true,
+			//},
+		})
+	}
+
+	track.Segments = append(track.Segments, segment)
+
+	newFile.Tracks = append(newFile.Tracks, track)
+
+	return newFile
 }
 
 func getCsvReader(csvFile string) (reader *csv.Reader) {
@@ -76,9 +124,6 @@ func getCsvReader(csvFile string) (reader *csv.Reader) {
 }
 
 func createCsvLines(reader *csv.Reader) (parsedLines []pkg.CsvLine) {
-	//var parsedLines []pkg.CsvLine
-
-	//var index int = 0
 
 	for {
 		line, error := reader.Read()
@@ -108,18 +153,13 @@ func createCsvLines(reader *csv.Reader) (parsedLines []pkg.CsvLine) {
 		second, _ := strconv.Atoi(strings.Split(line[6], ":")[2])
 
 		altitude, _ := strconv.ParseFloat(line[7], 64)
+
+		// altitude is in meters, let's convert to feet
+		altitude = altitude * 3.28084
+
 		speed, _ := strconv.ParseFloat(line[8], 64)
 
 		location, _ := time.LoadLocation("GMT")
-
-		//dateman := fmt.Sprintf("%d-%d-%d %s", year, month, day, line[6])
-		//dateFormat := "2006-01-02 14:04:05"
-
-		//ughDate, err := time.Parse(dateman, dateFormat)
-		//if err != nil {
-		//	http.Error(response, err.Error(), http.StatusInternalServerError)
-		//	return
-		//}
 
 		daDate := time.Date(int(year), time.Month(month), int(day), int(hour), int(minute), int(second), 0, location)
 
