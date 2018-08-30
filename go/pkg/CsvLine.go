@@ -3,11 +3,11 @@ package pkg
 import "time"
 
 type CsvLine struct {
-	Satellites int64
+	Satellites int
 	Hdop       float64
 	Latitude   float64
 	Longitude  float64
-	Age        int64
+	Age        float64
 	When       time.Time
 	Altitude   float64
 

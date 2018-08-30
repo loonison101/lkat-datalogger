@@ -78,23 +78,28 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 	segment := gpx.GPXTrackSegment{}
 
 	for _, csvLine := range csvLines {
-		elevation2 := new(gpx.NullableFloat64)
-		elevation2.SetValue(csvLine.Altitude)
+		//elevation2 := new(gpx.NullableFloat64)
+		//elevation2.SetValue(csvLine.Altitude)
 
 		elevation3 := gpx.NullableFloat64{}
 		elevation3.SetValue(csvLine.Altitude)
+
+		satellites := gpx.NullableInt{}
+		satellites.SetValue(csvLine.Satellites)
+
+		age := gpx.NullableFloat64{}
+		age.SetValue(csvLine.Age)
 
 		segment.Points = append(segment.Points, gpx.GPXPoint{
 			Point: gpx.Point{
 				Latitude:  csvLine.Latitude,
 				Longitude: csvLine.Longitude,
-				//Elevation: NullableFloat64{
-				//	csvLine.Altitude, true,
-				//},
-				//Elevation: gpx.NullableFloat64
 				Elevation: elevation3,
 			},
-			Timestamp: csvLine.When,
+			Timestamp:     csvLine.When,
+			Source:        "Go Pro",
+			Satellites:    satellites,
+			AgeOfDGpsData: age,
 			//Satellites: csvLine.Satellites,
 			//Satellites: gpx.NullableInt{
 			//	int(csvLine.Satellites), true,
@@ -133,12 +138,13 @@ func createCsvLines(reader *csv.Reader) (parsedLines []pkg.CsvLine) {
 			log.Fatal(error)
 		}
 
-		satellites, _ := strconv.ParseInt(line[0], 0, 64)
+		satellites, _ := strconv.Atoi(line[0]) //strconv.ParseInt(line[0], 0, 64)
 		hdop, _ := strconv.ParseFloat(line[1], 64)
 		latitude, _ := strconv.ParseFloat(line[2], 64)
 		longitude, _ := strconv.ParseFloat(strings.Trim(line[3], " "), 64)
 
-		age, _ := strconv.ParseInt(line[4], 0, 64)
+		//age, _ := strconv.ParseInt(line[4], 0, 64)
+		age, _ := strconv.ParseFloat(line[4], 64)
 
 		//month,_ := strconv.ParseInt(strings.Split(line[5], "/")[0], 0, 64)
 		month, _ := strconv.Atoi(strings.Split(line[5], "/")[0]) //(int)strings.Split(line[5], "/")[0]
