@@ -1,8 +1,12 @@
 package pkg
 
-import "time"
+import (
+	"github.com/jinzhu/gorm"
+	"time"
+)
 
 type CsvLine struct {
+	gorm.Model
 	Satellites int
 	Hdop       float64
 	Latitude   float64

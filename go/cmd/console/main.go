@@ -6,6 +6,8 @@ import (
 	"encoding/csv"
 	"flag"
 	"fmt"
+	"github.com/jinzhu/gorm"
+	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/teris-io/shortid"
 	"github.com/tkrajina/gpxgo/gpx"
 	"io"
@@ -46,6 +48,20 @@ func main() {
 	gpxObject := createGpx(csvLines)
 
 	writeGpxFile(gpxObject, destinationFile)
+
+	// We also need to populate a central store that will contain all of our data
+	// Maybe do a big select on IDs...
+	if true {
+		db, err := gorm.Open("sqlite3", "test.db")
+		if err != nil {
+			panic("failed to connect database")
+		}
+		defer db.Close()
+
+		// Migrate the schema
+		db.AutoMigrate(&pkg.CsvLine{})
+
+	}
 
 	absoluteDestinationFile, _ := filepath.Abs(destinationFile)
 	log.Output(2, fmt.Sprintf("Done writing gpx file to %s", absoluteDestinationFile))
