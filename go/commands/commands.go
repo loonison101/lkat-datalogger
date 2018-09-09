@@ -11,11 +11,13 @@ func Execute(args []string) {
 
 	var rootCmdLkat = &cobra.Command{Use: "app"}
 
-	csvCommand := CsvCommand{}
+	csvCommand := AllCommand{}
 	rootCmdLkat.AddCommand(csvCommand.GetCommand(args))
 
 	enrichCsvCommand := EnrichCsvCommand{}
 	rootCmdLkat.AddCommand(enrichCsvCommand.GetCommand())
+
+
 
 	rootCmdLkat.Execute()
 }
