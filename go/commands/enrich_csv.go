@@ -14,16 +14,22 @@ import (
 
 type EnrichCsvCommand struct {}
 
+var sourceCsvPath string
+
 func (c EnrichCsvCommand) GetCommand() *cobra.Command {
-	return &cobra.Command{
+	cmd := &cobra.Command{
 		Use: "enrich",
 		Run: doWork,
 	}
+
+	cmd.Flags().StringVarP(&sourceCsvPath, "source", "s", "../LOG.8.25.18.csv", "source CSV file to process")
+
+	return cmd
 }
 
 func doWork(cmd *cobra.Command, args []string) {
-	fmt.Println("Loading file...")
-	csvFile, err := os.Open("../LOG.8.25.18.csv")
+	fmt.Println("Loading file... " + sourceCsvPath )
+	csvFile, err := os.Open(sourceCsvPath)
 	if err != nil {
 		log.Panic(err)
 	}
