@@ -1,9 +1,10 @@
-package main
+package commands
 
 import (
 	"bufio"
 	"encoding/csv"
 	"fmt"
+	"github.com/spf13/cobra"
 	"github.com/teris-io/shortid"
 	"io"
 	"log"
@@ -11,10 +12,18 @@ import (
 	"path/filepath"
 )
 
-func main() {
+type EnrichCsvCommand struct {}
 
+func (c EnrichCsvCommand) GetCommand() *cobra.Command {
+	return &cobra.Command{
+		Use: "enrich",
+		Run: doWork,
+	}
+}
+
+func doWork(cmd *cobra.Command, args []string) {
 	fmt.Println("Loading file...")
-	csvFile, err := os.Open("../../../LOG.8.25.18.csv")
+	csvFile, err := os.Open("../LOG.8.25.18.csv")
 	if err != nil {
 		log.Panic(err)
 	}
@@ -26,7 +35,7 @@ func main() {
 		log.Panic(err)
 	}
 
-	destinationFilePath := "../../../generated/" + id + ".csv"
+	destinationFilePath := "../generated/" + id + ".csv"
 	destinationFile, err := os.Create(destinationFilePath)
 	if err != nil {
 		log.Panic(err)
@@ -64,5 +73,4 @@ func main() {
 	}
 
 	fmt.Println("Created file: " + absoluteDestination)
-
 }

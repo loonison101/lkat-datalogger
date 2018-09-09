@@ -93,6 +93,7 @@ func main() {
 	bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 }
+
 func writeGpxFile(gpxObject gpx.GPX, destinationFile string) {
 	fileBytes, err := gpxObject.ToXml(gpx.ToXmlParams{Version: "1.1", Indent: true})
 	if err != nil {
