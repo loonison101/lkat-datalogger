@@ -31,6 +31,7 @@ const (
 func main() {
 
 	var populateDb bool
+	var populateGpx bool
 	var csvFile string
 	var destinationFile string
 	defaultDestinationFile, _ := shortid.Generate()
@@ -38,6 +39,7 @@ func main() {
 	flag.StringVar(&csvFile, "source", "../../../LOG.8.25.18.csv", "The source CSV file path to process")
 	flag.StringVar(&destinationFile, "destination", "../../../generated/"+defaultDestinationFile+".gpx", "The destination gpx file made from the csv data")
 	flag.BoolVar(&populateDb, "populateDb", true, "Defaults to true which populates the DB, false if you do not want to populate it")
+	flag.BoolVar(&populateGpx, "populateGpx", true, "Defaults to true which populates the GPX file, false if you do not want to create the file")
 	flag.Parse()
 
 	log.Output(2, "Beginning LKAT DATALOGGER file processing...")
@@ -59,12 +61,21 @@ func main() {
 		// Migrate the schema
 		db.AutoMigrate(&pkg.CsvLine{})
 
+		// I'll handle errors
+		db.LogMode(false)
+
 	//}
 
-	// Create the gpx object
-	gpxObject := createGpx(csvLines)
+	if populateGpx {
+		log.Output(2, "Creating GPX file...")
+		// Create the gpx object
+		gpxObject := createGpx(csvLines)
 
-	writeGpxFile(gpxObject, destinationFile)
+		writeGpxFile(gpxObject, destinationFile)
+	} else {
+		log.Output(2, "Not creating GPX file because populateGpx is false")
+	}
+
 
 	// Load database
 	if populateDb {
@@ -151,22 +162,23 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 }
 
 func loadDatabase(csvLines []pkg.CsvLine, db *gorm.DB) {
-	//var idx = 1;
-	//var len = len(csvLines)
-	//for _, line := range csvLines {
-	//	log.Output(2, fmt.Sprintf("Creating record in db, index: %d. %d%% done", idx, idx/len))
-	//	db.Create(&line)
-	//	idx++
-	//}
-	//db.Create(csvLines)
 
+
+	// We don't want to insert duplicates into our DB, so what to do...
+	//
 	tx := db.Begin()
 	var idx float32 = 1;
 	var len = float32(len(csvLines))
 	for _, line := range csvLines {
 		var diff float32 = idx / len
 		log.Output(2, fmt.Sprintf("Creating record in db, index: %f, %f%% done ", idx, diff))
-		tx.Create(&line)
+		if err := tx.Create(&line).Error; err != nil {
+			if strings.Contains(err.Error(), "UNIQUE constraint failed: csv_lines.uuid") {
+				// It's ok, we are aware of this error, we don't want duplicates anyway
+			} else {
+				log.Fatal(err)
+			}
+		}
 		idx = idx + 1
 	}
 

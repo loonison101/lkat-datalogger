@@ -14,7 +14,7 @@ type CsvLine struct {
 	Age        float64
 	When       time.Time
 	Altitude   float64
-	Uuid       string
+	Uuid       string `gorm:"unique;not null"`
 	Speed   float64
 	RawLine string
 }

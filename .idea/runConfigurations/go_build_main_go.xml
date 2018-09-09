@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="go build main.go" type="GoApplicationRunConfiguration" factoryName="Go Application" singleton="true">
+    <module name="lkat-datalogger" />
+    <working_directory value="$PROJECT_DIR$" />
+    <go_parameters value="-i" />
+    <parameters value="-source=../../../generated/gGJGfgTmg.csv -populateDb=true" />
+    <kind value="FILE" />
+    <filePath value="go/cmd/console/main.go" />
+    <directory value="$PROJECT_DIR$/" />
+    <method v="2" />
+  </configuration>
+</component>
