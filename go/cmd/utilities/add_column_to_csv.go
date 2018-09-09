@@ -21,6 +21,7 @@ func main() {
 	//
 	//reader := csv.NewReader(rawData)
 
+	fmt.Println("Loading file...")
 	csvFile, err := os.Open("../../../LOG.8.25.18.csv")
 	if err != nil {
 		log.Panic(err)

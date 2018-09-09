@@ -14,7 +14,7 @@ type CsvLine struct {
 	Age        float64
 	When       time.Time
 	Altitude   float64
-
+	Uuid       string
 	Speed   float64
 	RawLine string
 }

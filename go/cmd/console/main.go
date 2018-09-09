@@ -2,6 +2,7 @@ package main
 
 import (
 	"../../pkg"
+	"bufio"
 	"bytes"
 	"encoding/csv"
 	"flag"
@@ -29,12 +30,14 @@ const (
 
 func main() {
 
+	var populateDb bool
 	var csvFile string
 	var destinationFile string
 	defaultDestinationFile, _ := shortid.Generate()
 
-	flag.StringVar(&csvFile, "CSV File", "../../../LOG.8.25.18.csv", "The source CSV file path to process")
-	flag.StringVar(&destinationFile, "Destination GPX file", "../../../generated/"+defaultDestinationFile+".gpx", "The destination gpx file made from the csv data")
+	flag.StringVar(&csvFile, "source", "../../../LOG.8.25.18.csv", "The source CSV file path to process")
+	flag.StringVar(&destinationFile, "destination", "../../../generated/"+defaultDestinationFile+".gpx", "The destination gpx file made from the csv data")
+	flag.BoolVar(&populateDb, "populateDb", true, "Defaults to true which populates the DB, false if you do not want to populate it")
 	flag.Parse()
 
 	log.Output(2, "Beginning LKAT DATALOGGER file processing...")
@@ -44,14 +47,9 @@ func main() {
 
 	log.Output(2, fmt.Sprintf("Loaded %d csv lines", len(csvLines)))
 
-	// Create the gpx object
-	gpxObject := createGpx(csvLines)
-
-	writeGpxFile(gpxObject, destinationFile)
-
 	// We also need to populate a central store that will contain all of our data
 	// Maybe do a big select on IDs...
-	if true {
+	//if true {
 		db, err := gorm.Open("sqlite3", "test.db")
 		if err != nil {
 			panic("failed to connect database")
@@ -61,10 +59,27 @@ func main() {
 		// Migrate the schema
 		db.AutoMigrate(&pkg.CsvLine{})
 
+	//}
+
+	// Create the gpx object
+	gpxObject := createGpx(csvLines)
+
+	writeGpxFile(gpxObject, destinationFile)
+
+	// Load database
+	if populateDb {
+		log.Output(2, "Beginning populating DB since populateDb is true")
+		loadDatabase(csvLines, db)
+	} else {
+		log.Output(2, "Not populating DB since populateDb is false")
 	}
+
 
 	absoluteDestinationFile, _ := filepath.Abs(destinationFile)
 	log.Output(2, fmt.Sprintf("Done writing gpx file to %s", absoluteDestinationFile))
+
+	fmt.Print("Press 'Enter' to close program...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
 
 }
 func writeGpxFile(gpxObject gpx.GPX, destinationFile string) {
@@ -116,6 +131,7 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 			Source:        "Go Pro",
 			Satellites:    satellites,
 			AgeOfDGpsData: age,
+
 			//Satellites: csvLine.Satellites,
 			//Satellites: gpx.NullableInt{
 			//	int(csvLine.Satellites), true,
@@ -132,6 +148,34 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 	newFile.Tracks = append(newFile.Tracks, track)
 
 	return newFile
+}
+
+func loadDatabase(csvLines []pkg.CsvLine, db *gorm.DB) {
+	//var idx = 1;
+	//var len = len(csvLines)
+	//for _, line := range csvLines {
+	//	log.Output(2, fmt.Sprintf("Creating record in db, index: %d. %d%% done", idx, idx/len))
+	//	db.Create(&line)
+	//	idx++
+	//}
+	//db.Create(csvLines)
+
+	tx := db.Begin()
+	var idx float32 = 1;
+	var len = float32(len(csvLines))
+	for _, line := range csvLines {
+		var diff float32 = idx / len
+		log.Output(2, fmt.Sprintf("Creating record in db, index: %f, %f%% done ", idx, diff))
+		tx.Create(&line)
+		idx = idx + 1
+	}
+
+	fmt.Print("Ready to commit to DB? Press 'Enter' to continue...")
+	bufio.NewReader(os.Stdin).ReadBytes('\n')
+
+	log.Output(2, "Commiting transaction...")
+	tx.Commit()
+
 }
 
 func getCsvReader(csvFile string) (reader *csv.Reader) {
@@ -196,6 +240,7 @@ func createCsvLines(reader *csv.Reader) (parsedLines []pkg.CsvLine) {
 			Altitude: altitude,
 			Speed:    speed,
 			RawLine:  strings.Join(line, ","),
+			Uuid: line[9],
 		}
 
 		parsedLines = append(parsedLines, newLine)
