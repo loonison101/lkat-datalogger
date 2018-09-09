@@ -48,7 +48,7 @@ func (c AllCommand) GetCommand(args []string) *cobra.Command {
 			// We also need to populate a central store that will contain all of our data
 			// Maybe do a big select on IDs...
 			//if true {
-			db, err := gorm.Open("sqlite3", "test.db")
+			db, err := gorm.Open("sqlite3", "lkat.db")
 			if err != nil {
 				panic("failed to connect database - " + err.Error())
 			}

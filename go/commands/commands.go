@@ -17,7 +17,8 @@ func Execute(args []string) {
 	enrichCsvCommand := EnrichCsvCommand{}
 	rootCmdLkat.AddCommand(enrichCsvCommand.GetCommand())
 
-
+	importCommand := ImportCsvToDbCommand{}
+	rootCmdLkat.AddCommand(importCommand.GetCommand(args))
 
 	rootCmdLkat.Execute()
 }
