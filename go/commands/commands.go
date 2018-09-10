@@ -20,6 +20,9 @@ func Execute(args []string) {
 	importCommand := ImportCsvToDbCommand{}
 	rootCmdLkat.AddCommand(importCommand.GetCommand(args))
 
+	gpxCommand := GpxCommand{}
+	rootCmdLkat.AddCommand(gpxCommand.GetCommand(args))
+
 	rootCmdLkat.Execute()
 }
 //type baseCmd struct {

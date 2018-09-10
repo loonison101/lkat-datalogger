@@ -3,9 +3,12 @@ package main
 import (
 	"./commands"
 	"os"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
 func main() {
+
+	jww.SetStdoutThreshold(jww.LevelInfo)
 
 	//runtime.GOMAXPROCS(runtime.NumCPU())
 	commands.Execute(os.Args[1:])
