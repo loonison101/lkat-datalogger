@@ -159,7 +159,7 @@ void displayInfo()
   lastLongitude = gps.location.lng();
 
   char buffer[1000];
-  sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f",
+  sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld",
           gps.satellites.value(),   // 0
           gps.hdop.hdop(),          // 1
           gps.location.lat(),       // 2
@@ -175,25 +175,39 @@ void displayInfo()
           gps.time.second(),        // 6
 
           gps.altitude.meters(),    // 7
-          gps.speed.mph()           // 8
+          gps.speed.mph(),           // 8
+          millis() * esp_random()                 // 9
 
   );
 
   // Serial.println("custom -- " + String(buffer));
   Serial.println("trying to write to sd card");
-  logFile = SD.open("log.txt", FILE_WRITE);
+  logFile = SD.open("/log.txt", FILE_WRITE);
 
-  if (logFile)
-  {
-    Serial.println("writing to log.txt");
+
+  // if (logFile)
+  // {
+  //   Serial.println("writing to log.txt");
+  //   logFile.println(String(buffer));
+  //   logFile.close();
+  //   Serial.println("done writing");
+  // }
+  // else
+  // {
+  //   Serial.println("error opening log.txt");
+  // }
+
+  if (!logFile) {
+    logFile.close();
+  }
+
+logFile = SD.open("/log.txt", FILE_WRITE);
+  Serial.println("writing to log.txt");
     logFile.println(String(buffer));
     logFile.close();
     Serial.println("done writing");
-  }
-  else
-  {
-    Serial.println("error opening log.txt");
-  }
+
+
 }
 void loop()
 {

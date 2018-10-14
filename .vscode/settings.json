@@ -1,6 +1,6 @@
 {
     "terminal.integrated.env.linux": {
-        "PATH": "/home/lane/.platformio/penv/bin:/home/lane/.platformio/penv:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin",
+        "PATH": "/home/lane/.platformio/penv/bin:/home/lane/.platformio/penv:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/lane/Programs/robo3t-1.2.1-linux-x86_64-3e50a65/bin:/bin:/home/lane/go/bin",
         "PLATFORMIO_CALLER": "vscode"
     },
     "files.associations": {

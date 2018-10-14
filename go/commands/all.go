@@ -124,13 +124,15 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 		AuthorName: "Lane Katris",
 	}
 
+	// gpx file -> tracks -> segments
 	track := gpx.GPXTrack{}
+
+
+	// We need to generate se
 
 	segment := gpx.GPXTrackSegment{}
 
 	for _, csvLine := range csvLines {
-		//elevation2 := new(gpx.NullableFloat64)
-		//elevation2.SetValue(csvLine.Altitude)
 
 		elevation3 := gpx.NullableFloat64{}
 		elevation3.SetValue(csvLine.Altitude)
@@ -151,15 +153,6 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 			Source:        "Go Pro",
 			Satellites:    satellites,
 			AgeOfDGpsData: age,
-
-			//Satellites: csvLine.Satellites,
-			//Satellites: gpx.NullableInt{
-			//	int(csvLine.Satellites), true,
-			//},
-			////AgeOfDGpsData: csvLine.Age
-			//AgeOfDGpsData: gpx.NullableFloat64{
-			//	float64(csvLine.Age), true,
-			//},
 		})
 	}
 
