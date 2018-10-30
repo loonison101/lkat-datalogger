@@ -251,3 +251,4 @@ go/lkat.db
 
 net-core/LKAT-DataLogger/LKAT.Cmd/logs/*.*
 
+*.txt
