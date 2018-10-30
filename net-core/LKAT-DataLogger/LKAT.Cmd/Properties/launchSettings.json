@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "LKAT.Cmd": {
+      "commandName": "Project",
+      "commandLineArgs": "load -s C:\\Users\\looni\\Documents\\GitHub\\lkat-datalogger\\generated\\ep62srJig-v2.csv"
+    }
+  }
+}

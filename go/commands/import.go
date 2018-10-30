@@ -4,11 +4,41 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/spf13/cobra"
+	"io"
+	"io/ioutil"
 	"log"
 	"../pkg"
+	"net/http"
+	"os"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
 type ImportCsvToDbCommand struct {}
+
+func DownloadFile(filepath string, url string) error {
+
+	// Create the file
+	out, err := os.Create(filepath)
+	if err != nil {
+		return err
+	}
+	defer out.Close()
+
+	// Get the data
+	resp, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	// Write the body to file
+	_, err = io.Copy(out, resp.Body)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 
 func (c ImportCsvToDbCommand) GetCommand(args []string) *cobra.Command {
 
@@ -18,8 +48,20 @@ func (c ImportCsvToDbCommand) GetCommand(args []string) *cobra.Command {
 		Use: "import",
 		Run: func(cmd *cobra.Command, args2 []string) {
 
+			//log.Output(2, fmt.Sprintf("Downloading file: %s", csvFile))
+			jww.INFO.Printf("Downloading file: %s", csvFile)
+			tempFile, err := ioutil.TempFile("", "downloaded-csv-")
+			if err != nil {
+				panic(err)
+			}
+			err = DownloadFile(tempFile.Name(), csvFile)
+			if err != nil {
+				panic(err)
+			}
+			defer os.Remove(tempFile.Name())
+			jww.INFO.Printf("File downloaded here: %s", tempFile.Name())
 
-			var reader = getCsvReader(csvFile)
+			var reader = getCsvReader(tempFile.Name())
 			csvLines := createCsvLines(reader)
 
 			log.Output(2, fmt.Sprintf("Loaded %d csv lines", len(csvLines)))

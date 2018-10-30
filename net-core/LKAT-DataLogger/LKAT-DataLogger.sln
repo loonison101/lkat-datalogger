@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LKAT.Cmd", "LKAT.Cmd\LKAT.Cmd.csproj", "{02CA2F7D-39DD-4BF4-9CBB-C1A02067C8FE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LKAT.Test", "LKAT.Test\LKAT.Test.csproj", "{ECE2FCB2-F5E1-449B-A73E-2D4D2C4D9CE0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{02CA2F7D-39DD-4BF4-9CBB-C1A02067C8FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02CA2F7D-39DD-4BF4-9CBB-C1A02067C8FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02CA2F7D-39DD-4BF4-9CBB-C1A02067C8FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02CA2F7D-39DD-4BF4-9CBB-C1A02067C8FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECE2FCB2-F5E1-449B-A73E-2D4D2C4D9CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECE2FCB2-F5E1-449B-A73E-2D4D2C4D9CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECE2FCB2-F5E1-449B-A73E-2D4D2C4D9CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECE2FCB2-F5E1-449B-A73E-2D4D2C4D9CE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

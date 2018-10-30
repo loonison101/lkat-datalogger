@@ -7,9 +7,11 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/teris-io/shortid"
 	"io"
+	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+	jww "github.com/spf13/jwalterweatherman"
 )
 
 type EnrichCsvCommand struct {}
@@ -28,8 +30,22 @@ func (c EnrichCsvCommand) GetCommand() *cobra.Command {
 }
 
 func doWork(cmd *cobra.Command, args []string) {
-	fmt.Println("Loading file... " + sourceCsvPath )
-	csvFile, err := os.Open(sourceCsvPath)
+
+	jww.INFO.Printf("Downloading file: %s", sourceCsvPath)
+	tempFile, err := ioutil.TempFile("", "downloaded-csv-")
+	if err != nil {
+		panic(err)
+	}
+	err = DownloadFile(tempFile.Name(), sourceCsvPath)
+	if err != nil {
+		panic(err)
+	}
+	defer os.Remove(tempFile.Name())
+	jww.INFO.Printf("File downloaded here: %s", tempFile.Name())
+
+
+	fmt.Println("Loading file... " + tempFile.Name() )
+	csvFile, err := os.Open(tempFile.Name())
 	if err != nil {
 		log.Panic(err)
 	}

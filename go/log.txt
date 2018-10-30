@@ -3,3 +3,28 @@ INFO 2018/09/09 22:31:12 Loading ALL rows from DB...
 INFO 2018/09/09 22:31:15 Loaded 70950 rows
 INFO 2018/09/09 22:31:15 Creating GPX file...
 INFO 2018/09/09 22:31:16 Done writing gpx file to /mnt/26188D9B188D6A9F/Users/looni/Documents/GitHub/lkat-datalogger/generated/SXTKpZomR.gpx
+INFO 2018/10/14 14:29:25 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18.TXT
+INFO 2018/10/14 14:29:27 File downloaded here: /tmp/downloaded-csv685615902
+INFO 2018/10/14 14:38:56 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18.TXT
+INFO 2018/10/14 14:38:57 File downloaded here: /tmp/downloaded-csv-672086738
+INFO 2018/10/14 14:44:54 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18.TXT
+INFO 2018/10/14 14:44:55 File downloaded here: /tmp/downloaded-csv-031911917
+INFO 2018/10/14 14:45:28 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18-v2.TXT
+INFO 2018/10/14 14:45:30 File downloaded here: /tmp/downloaded-csv-741596863
+INFO 2018/10/14 14:48:51 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18.TXT
+INFO 2018/10/14 14:48:53 File downloaded here: /tmp/downloaded-csv-645681662
+INFO 2018/10/14 14:59:11 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18.TXT
+INFO 2018/10/14 14:59:13 File downloaded here: /tmp/downloaded-csv-698327594
+INFO 2018/10/14 15:00:18 Downloading file: https://storage.googleapis.com/lkat-datalogger/LOG.10-13-18-v3.TXT
+INFO 2018/10/14 15:00:20 File downloaded here: /tmp/downloaded-csv-020378283
+INFO 2018/10/14 15:06:08 Downloading file: https://storage.googleapis.com/lkat-datalogger/ep62srJig.csv
+INFO 2018/10/14 15:06:10 File downloaded here: /tmp/downloaded-csv-756851420
+INFO 2018/10/14 15:08:34 Downloading file: https://storage.googleapis.com/lkat-datalogger/ep62srJig.csv
+INFO 2018/10/14 15:08:35 File downloaded here: /tmp/downloaded-csv-934578819
+INFO 2018/10/14 15:09:09 Downloading file: https://storage.googleapis.com/lkat-datalogger/ep62srJig.csv
+INFO 2018/10/14 15:09:11 File downloaded here: /tmp/downloaded-csv-640577806
+INFO 2018/10/14 15:09:49 Connecting to DB...
+INFO 2018/10/14 15:09:49 Loading ALL rows from DB...
+INFO 2018/10/14 15:09:54 Loaded 134823 rows
+INFO 2018/10/14 15:09:54 Creating GPX file...
+INFO 2018/10/14 15:09:56 Done writing gpx file to /mnt/26188D9B188D6A9F/Users/looni/Documents/GitHub/lkat-datalogger/generated/x80gUrJmR.gpx

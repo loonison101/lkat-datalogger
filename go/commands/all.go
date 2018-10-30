@@ -156,6 +156,9 @@ func createGpx(csvLines []pkg.CsvLine) gpx.GPX {
 		})
 	}
 
+	// Segment.points has all of our data, let's split up things by day
+
+
 	track.Segments = append(track.Segments, segment)
 
 	newFile.Tracks = append(newFile.Tracks, track)
