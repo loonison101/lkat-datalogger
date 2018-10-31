@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using CommandLine;
 using Newtonsoft.Json;
 using Serilog;
+using Serilog.Core;
 
 namespace LKAT.Cmd
 {
@@ -17,6 +18,13 @@ namespace LKAT.Cmd
     {
         [Option('s', "sourceFile", Required = true, HelpText = "Source url/path to csv file to consume")]
         public string sourceFile { get; set; }
+    }
+
+    [Verb("verify", HelpText = "Verify status of gpx files are persisted")]
+    public class VerifyOptions
+    {
+        [Option('d', "sourceDirectory", Required = true, HelpText = "Validate gpx files exist in database and match")]
+        public string Directory { get; set; }
     }
     
     class Program
@@ -36,13 +44,25 @@ namespace LKAT.Cmd
 
             var service = new CsvLoaderService(log, loaders);
             var exporterService = new CsvExporterService(log);
-            
-            return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions>(args)
+
+            var fileMetaService = new FileMetaService(Environment.GetEnvironmentVariable("LKAT-DATALOGGER-APIKEY"),
+                Environment.GetEnvironmentVariable("LKAT-DATALOGGER-DBID"));
+            var fileMetaValidator = new FileMetaValidatorService(fileMetaService, log);
+
+            return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions, VerifyOptions>(args)
                 .MapResult(
                     (GpxOptions opts) => RunGpx(opts, exporterService),
                     (LoadOptions opts) => RunLoad(opts, service, log),
+                    (VerifyOptions opts) => RunVerify(opts, fileMetaValidator, log),
                     errs => 1);
                     
+        }
+
+        private static int RunVerify(VerifyOptions opts, FileMetaValidatorService service, Logger log)
+        {
+            log.Information("Using this configuration: {0}", JsonConvert.SerializeObject(opts));
+            service.SyncAndValidate(opts.Directory);
+            return 0;
         }
 
         private static int RunLoad(LoadOptions opts, CsvLoaderService service, Serilog.Core.Logger log)
