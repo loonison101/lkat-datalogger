@@ -20,13 +20,26 @@ namespace LKAT.Cmd
         public string sourceFile { get; set; }
     }
 
-    [Verb("verify", HelpText = "Verify status of gpx files are persisted")]
+    [Verb("verify-gpx", HelpText = "Verify status of gpx files are persisted")]
     public class VerifyOptions
     {
         [Option('d', "sourceDirectory", Required = true, HelpText = "Validate gpx files exist in database and match")]
         public string Directory { get; set; }
     }
-    
+
+    [Verb("verify-csv", HelpText = "Verify status of csv file(s). i.e. do they have a header, etc...")]
+    public class CsvModifyOptions
+    {
+        [Option('y', "shouldWrite", Required = false, HelpText = "Defaults to false. Won't actually change file(s) unless this is true, otherwise it will show what it could change")]
+        public bool ShouldWrite { get; set; }
+    }
+
+    [Verb("db-count", HelpText = "Gives you stats about the CSV database")]
+    public class DbCountOptions
+    {
+        
+    }
+
     class Program
     {
         static int Main(string[] args)
@@ -49,19 +62,41 @@ namespace LKAT.Cmd
                 Environment.GetEnvironmentVariable("LKAT-DATALOGGER-DBID"));
             var fileMetaValidator = new FileMetaValidatorService(fileMetaService, log);
 
-            return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions, VerifyOptions>(args)
+            var csvModifierService = new CsvModifierService(log);
+
+            var csvRepo = new CsvRepository();
+
+            return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions, VerifyOptions, CsvModifyOptions, DbCountOptions>(args)
                 .MapResult(
                     (GpxOptions opts) => RunGpx(opts, exporterService),
                     (LoadOptions opts) => RunLoad(opts, service, log),
-                    (VerifyOptions opts) => RunVerify(opts, fileMetaValidator, log),
+                    (VerifyOptions opts) => RunGpxVerify(opts, fileMetaValidator, log),
+                    (CsvModifyOptions opts) => RunCsvVerify(opts, log, csvModifierService),
+                    (DbCountOptions opts) => RunDbCount(opts, log, csvRepo),
                     errs => 1);
                     
         }
 
-        private static int RunVerify(VerifyOptions opts, FileMetaValidatorService service, Logger log)
+        private static int RunDbCount(DbCountOptions opts, Logger log, CsvRepository csvRepo)
+        {
+            log.Information("Using this configuration: {0}", JsonConvert.SerializeObject(opts));
+            log.Information("Querying...");
+            var count = csvRepo.RecordCount();
+            log.Information("CSV Record Count: {0}", count);
+            return 0;
+        }
+
+        private static int RunGpxVerify(VerifyOptions opts, FileMetaValidatorService service, Logger log)
         {
             log.Information("Using this configuration: {0}", JsonConvert.SerializeObject(opts));
             service.SyncAndValidate(opts.Directory);
+            return 0;
+        }
+
+        private static int RunCsvVerify(CsvModifyOptions opts, Logger log, CsvModifierService service)
+        {
+            log.Information("Using this configuration: {0}", JsonConvert.SerializeObject(opts));
+            service.AddHeaderToFiles(opts);
             return 0;
         }
 

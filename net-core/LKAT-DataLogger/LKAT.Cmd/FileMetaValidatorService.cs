@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 using Serilog.Core;
 
 namespace LKAT.Cmd
@@ -47,8 +48,12 @@ namespace LKAT.Cmd
             // Any hash differences?
             var filesWithHashDifferences = files.Where(f => dbFiles.Any(d => f.NameWithExtension == d.NameWithExtension && f.Hash != d.Hash)).ToList();
             if (filesWithHashDifferences.Any())
-                throw new Exception("There are gpx files with different hashes");
+                throw new Exception("There are gpx files with different hashes: " + JsonConvert.SerializeObject(filesWithHashDifferences));
 
+            var filesWithoutStatuses = dbFiles.Where(x => x.Status == null).ToList();
+            filesWithoutStatuses.ForEach(x => _logger.Information("These files have not been added to social: {0}", x.NameWithExtension));
+
+            _logger.Information("No hash differences between all files");
             _logger.Information("Done validating");
         }
     }

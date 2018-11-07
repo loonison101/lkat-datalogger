@@ -77,26 +77,7 @@ namespace LKAT.Cmd
 
             using (var db = new CsvDbContext())
             {
-                // We have unique constraints... So only add stuff we haven't added before
-                //var currentIds = db.CsvRecords.Select(x => x.Uuid).ToList();
-//                var query = db.CsvRecords.Select(x => x.Uuid);
-//                
-//                var currentIds = query.ToList();
-//                _logger.Information("Found {0} uuids in the DB", currentIds.Count);
-//                
-//                //db.BulkInsert(dbRecords);
-//                var recordIds = dbRecords.Select(x => x.Uuid).ToList();
-//                
-//                var recordsToInsert = dbRecords.Where(x => !currentIds.Contains(x.Uuid)).ToList();
-//                
-//                _logger.Information("Inserting {0} records into DB", recordsToInsert.Count);
-//                //
-//                //dbRecords.ForEach(x => { db.Add(x); });
-//                recordsToInsert.ForEach(x => { db.Add(x); });
-//
-//                db.SaveChanges();
-
-                int i = 1;
+                float i = 1;
                 foreach (var record in dbRecords)
                 {
                     if (!db.CsvRecords.Any(x => x.Uuid == record.Uuid))
@@ -105,7 +86,7 @@ namespace LKAT.Cmd
                         db.Add(record);
                     }
                     
-                    _logger.Information("Processed line - {0}", i / dbRecords.Count);
+                    _logger.Information("Processed line - {0}", i / (float)dbRecords.Count);
                     i++;
                 }
 

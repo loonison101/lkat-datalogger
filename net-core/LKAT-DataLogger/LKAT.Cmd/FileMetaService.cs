@@ -74,7 +74,8 @@ namespace LKAT.Cmd
                     {
                         NameWithExtension = (string)entry["NameWithExtension"],
                         NameWithPath = (string)entry["NameWithPath"],
-                        Hash = (string)entry["Hash"]
+                        Hash = (string)entry["Hash"],
+                        Status = entry["Status"] == null ? null :  JArray.Parse(entry["Status"].ToString()).ToString()//(string[]) entry["Status"]
                     });
                 }
 

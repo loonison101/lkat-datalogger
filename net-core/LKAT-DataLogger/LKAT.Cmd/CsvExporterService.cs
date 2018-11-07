@@ -38,7 +38,7 @@ namespace LKAT.Cmd
                 foreach (IGrouping<DateTime, DbCsvRecord> grouping in groupedDays)
                 {
                     var key = grouping.Key;
-                    var fileName = Path.Join(Path.GetTempPath(), "GPX-" + key.ToString(dateFormat) + ".gpx"); //Path.GetTempFileName();// + "-gpx-file";
+                    var fileName = Path.Join(Path.GetTempPath(), "gpx" ,"GPX-" + key.ToString(dateFormat) + ".gpx"); //Path.GetTempFileName();// + "-gpx-file";
                     _logger.Information("Beginning creation of GPX file: {0}", fileName);
                     var points = new List<GpxPoint>();
                     
@@ -78,6 +78,8 @@ namespace LKAT.Cmd
                     var doc = new GpxDocument(new List<GpxPoint>(), new List<GpxRoute>(), tracks);
                     doc.Save(fileName);
                 }
+
+                _logger.Information("Created {0} GPX files", groupedDays.Count);
 
                 _logger.Information("DONE exporting");
             }

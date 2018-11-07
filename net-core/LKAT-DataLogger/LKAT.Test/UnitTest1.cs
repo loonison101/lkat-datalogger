@@ -12,12 +12,6 @@ namespace LKAT.Test
 {
     public class UnitTest1
     {
-        public UnitTest1(Logger log)
-        {
-            _log = log;
-        }
-
-        private Logger _log;
 
         [Fact]
         public void DownloadCsvAndLoadDb()
@@ -66,9 +60,24 @@ namespace LKAT.Test
             // Load the files from our directory we'll be evaluating
             var service = new FileMetaService(Environment.GetEnvironmentVariable("LKAT-DATALOGGER-APIKEY"),
                 Environment.GetEnvironmentVariable("LKAT-DATALOGGER-DBID"));
-            var validator = new FileMetaValidatorService(service, _log);
+            var validator = new FileMetaValidatorService(service, Mocks.Logger());
 
             validator.SyncAndValidate(options.Directory);
+        }
+
+        [Fact]
+        public void AddCsvHeadersToFile()
+        {
+            //var drives = DriveInfo.GetDrives();
+
+            var csvModifyOptions = new CsvModifyOptions()
+            {
+                ShouldWrite = false
+            };
+
+            var service = new CsvModifierService(Mocks.Logger());
+            service.AddHeaderToFiles(csvModifyOptions);
+
         }
     }
 }
