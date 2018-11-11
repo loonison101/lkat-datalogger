@@ -1,43 +1,75 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using CommandLine;
 using Newtonsoft.Json;
 using Serilog;
 using Serilog.Core;
+using Serilog.Exceptions;
 
 namespace LKAT.Cmd
 {
+    public static class CONSTANTS
+    {
+        public static string DB_PATH = @"./lkat.db";
+    }
+
+    public abstract class DatabaseOptions
+    {
+        [Option("db", HelpText = "Path to database")]
+        public string DbPath { get; set; }
+
+        protected DatabaseOptions()
+        {
+            //DbPath = @"C:\Users\looni\Documents\GitHub\lkat-datalogger\net-core\LKAT-DataLogger\LKAT.Cmd\lkat.db";
+            DbPath = CONSTANTS.DB_PATH;
+        }
+    }
+
     [Verb("gpx", HelpText = "Create a GPX file.")]
-    public class GpxOptions
+    public class GpxOptions : DatabaseOptions
     {
         
     }
 
     [Verb("load", HelpText = "Take a CSV file and load into DB")]
-    public class LoadOptions
+    public class LoadOptions : DatabaseOptions
     {
         [Option('s', "sourceFile", Required = true, HelpText = "Source url/path to csv file to consume")]
         public string sourceFile { get; set; }
     }
 
     [Verb("verify-gpx", HelpText = "Verify status of gpx files are persisted")]
-    public class VerifyOptions
+    public class VerifyOptions : DatabaseOptions
     {
         [Option('d', "sourceDirectory", Required = true, HelpText = "Validate gpx files exist in database and match")]
         public string Directory { get; set; }
     }
 
     [Verb("verify-csv", HelpText = "Verify status of csv file(s). i.e. do they have a header, etc...")]
-    public class CsvModifyOptions
+    public class CsvModifyOptions : DatabaseOptions
     {
         [Option('y', "shouldWrite", Required = false, HelpText = "Defaults to false. Won't actually change file(s) unless this is true, otherwise it will show what it could change")]
         public bool ShouldWrite { get; set; }
     }
 
     [Verb("db-count", HelpText = "Gives you stats about the CSV database")]
-    public class DbCountOptions
+    public class DbCountOptions : DatabaseOptions
     {
         
+    }
+
+    [Verb("backup-db", HelpText = "Backups CSV database to GCS")]
+    public class BackupDbOptions : DatabaseOptions
+    {
+        
+    }
+
+    public class ApplicationPreStartupException : Exception
+    {
+        public ApplicationPreStartupException(string message) : base(message)
+        {
+        }
     }
 
     class Program
@@ -45,10 +77,28 @@ namespace LKAT.Cmd
         static int Main(string[] args)
         {
             var log = new LoggerConfiguration()
+                .Enrich.WithExceptionDetails()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
                 .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Month )
                 .CreateLogger();
+
+            // Google cloud key, check if it is set/exists
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS")))
+            {
+                var ex = new ApplicationPreStartupException("GOOGLE_APPLICATION_CREDENTIALS environment variable needs to exist");
+                log.Error(ex, "Failed startup step 1");
+                return 1;
+            }
+
+            // Does the db exist?
+            if (!File.Exists(CONSTANTS.DB_PATH))
+            {
+                var ex = new ApplicationPreStartupException(CONSTANTS.DB_PATH + " must exist for this app to run properly");
+                log.Error(ex, "Failed startup step 2");
+                return 1;
+            }
+
             var loaders = new List<IFileLoader>()
             {
                 new LocalFileLoader(log),
@@ -66,15 +116,27 @@ namespace LKAT.Cmd
 
             var csvRepo = new CsvRepository();
 
-            return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions, VerifyOptions, CsvModifyOptions, DbCountOptions>(args)
+            var backupService = new BackupService(log);
+
+            return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions, VerifyOptions, CsvModifyOptions, DbCountOptions, BackupDbOptions>(args)
                 .MapResult(
                     (GpxOptions opts) => RunGpx(opts, exporterService),
                     (LoadOptions opts) => RunLoad(opts, service, log),
                     (VerifyOptions opts) => RunGpxVerify(opts, fileMetaValidator, log),
                     (CsvModifyOptions opts) => RunCsvVerify(opts, log, csvModifierService),
                     (DbCountOptions opts) => RunDbCount(opts, log, csvRepo),
+                    (BackupDbOptions opts) => RunBackupDb(opts, log, backupService),
                     errs => 1);
                     
+        }
+
+        private static int RunBackupDb(BackupDbOptions opts, Logger log, BackupService backupService)
+        {
+            log.Information("Using this configuration: {0}", JsonConvert.SerializeObject(opts));
+
+            backupService.BackupDb(opts);
+
+            return 0;
         }
 
         private static int RunDbCount(DbCountOptions opts, Logger log, CsvRepository csvRepo)

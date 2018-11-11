@@ -39,7 +39,7 @@ namespace LKAT.Cmd
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source=C:\Users\looni\Documents\GitHub\lkat-datalogger\net-core\LKAT-DataLogger\LKAT.Cmd\lkat.db");
+            optionsBuilder.UseSqlite(@"Data Source=" + CONSTANTS.DB_PATH);
         }
         
 //        protected override void OnModelCreating(ModelBuilder modelBuilder)
