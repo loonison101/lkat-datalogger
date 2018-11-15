@@ -36,6 +36,18 @@ namespace LKAT.Cmd
                 .WriteTo.Console()
                 .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Month )
                 .CreateLogger();
+
+
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("LKAT_DATALOGGER_APIKEY"))) {
+                log.Error("LKAT_DATALOGGER_APIKEY was not found in your environment variables");
+                return 1;
+            }
+
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("LKAT_DATALOGGER_DBID"))) {
+                log.Error("LKAT_DATALOGGER_DBID was not found in your environment variables");
+                return 1;
+            }
+
             var loaders = new List<IFileLoader>()
             {
                 new LocalFileLoader(log),
@@ -45,8 +57,8 @@ namespace LKAT.Cmd
             var service = new CsvLoaderService(log, loaders);
             var exporterService = new CsvExporterService(log);
 
-            var fileMetaService = new FileMetaService(Environment.GetEnvironmentVariable("LKAT-DATALOGGER-APIKEY"),
-                Environment.GetEnvironmentVariable("LKAT-DATALOGGER-DBID"));
+            var fileMetaService = new FileMetaService(Environment.GetEnvironmentVariable("LKAT_DATALOGGER_APIKEY"),
+                Environment.GetEnvironmentVariable("LKAT_DATALOGGER_DBID"));
             var fileMetaValidator = new FileMetaValidatorService(fileMetaService, log);
 
             return CommandLine.Parser.Default.ParseArguments<GpxOptions, LoadOptions, VerifyOptions>(args)
