@@ -12,6 +12,7 @@ namespace LKAT.Cmd
     public static class CONSTANTS
     {
         public static string DB_PATH = @"./lkat.db";
+        public static string LOG_PATH = @"logs\log.txt";
     }
 
     public abstract class DatabaseOptions
@@ -80,7 +81,7 @@ namespace LKAT.Cmd
                 .Enrich.WithExceptionDetails()
                 .MinimumLevel.Debug()
                 .WriteTo.Console()
-                .WriteTo.File("logs\\log.txt", rollingInterval: RollingInterval.Month )
+                .WriteTo.File(CONSTANTS.LOG_PATH, rollingInterval: RollingInterval.Month )
                 .CreateLogger();
 
             // Google cloud key, check if it is set/exists

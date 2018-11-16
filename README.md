@@ -37,3 +37,6 @@ Verify GPX files with meta DB and see what files haven't been added to socially 
 
 ```dotnet .\LKAT.Cmd.dll verify-gpx -d C:\Users\looni\AppData\Local\Temp\gpx```
 
+Backup DB
+
+```dotnet .\LKAT.Cmd.dll backup-db```
