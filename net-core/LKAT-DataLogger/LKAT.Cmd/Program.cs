@@ -84,19 +84,14 @@ namespace LKAT.Cmd
                 .WriteTo.File(CONSTANTS.LOG_PATH, rollingInterval: RollingInterval.Month )
                 .CreateLogger();
 
-            // Google cloud key, check if it is set/exists
-            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS")))
-            {
-                var ex = new ApplicationPreStartupException("GOOGLE_APPLICATION_CREDENTIALS environment variable needs to exist");
-                log.Error(ex, "Failed startup step 1");
+
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("LKAT_DATALOGGER_APIKEY"))) {
+                log.Error("LKAT_DATALOGGER_APIKEY was not found in your environment variables");
                 return 1;
             }
 
-            // Does the db exist?
-            if (!File.Exists(CONSTANTS.DB_PATH))
-            {
-                var ex = new ApplicationPreStartupException(CONSTANTS.DB_PATH + " must exist for this app to run properly");
-                log.Error(ex, "Failed startup step 2");
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("LKAT_DATALOGGER_DBID"))) {
+                log.Error("LKAT_DATALOGGER_DBID was not found in your environment variables");
                 return 1;
             }
 
@@ -109,8 +104,8 @@ namespace LKAT.Cmd
             var service = new CsvLoaderService(log, loaders);
             var exporterService = new CsvExporterService(log);
 
-            var fileMetaService = new FileMetaService(Environment.GetEnvironmentVariable("LKAT-DATALOGGER-APIKEY"),
-                Environment.GetEnvironmentVariable("LKAT-DATALOGGER-DBID"));
+            var fileMetaService = new FileMetaService(Environment.GetEnvironmentVariable("LKAT_DATALOGGER_APIKEY"),
+                Environment.GetEnvironmentVariable("LKAT_DATALOGGER_DBID"));
             var fileMetaValidator = new FileMetaValidatorService(fileMetaService, log);
 
             var csvModifierService = new CsvModifierService(log);

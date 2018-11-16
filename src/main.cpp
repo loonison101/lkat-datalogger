@@ -31,7 +31,7 @@ void setup()
   btStop();
 
   pinMode(chipSelect, OUTPUT);
-  pinMode(13, OUTPUT);
+  
 
   statusLedLife = millis() + 2000; 
 
@@ -130,7 +130,6 @@ static void printStr(const char *str, int len)
 
 void displayInfo()
 {
-  // Serial.println("custom satellites: " + gps.satellites.value());
   printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
   printFloat(gps.hdop.hdop(), gps.hdop.isValid(), 6, 1);
   printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
@@ -158,8 +157,12 @@ void displayInfo()
   lastLatitude = gps.location.lat();
   lastLongitude = gps.location.lng();
 
+  // Get our battery voltage
+  pinMode(13, INPUT);
+  double voltage = analogRead(13) * 2
+
   char buffer[1000];
-  sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld",
+  sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld",
           gps.satellites.value(),   // 0
           gps.hdop.hdop(),          // 1
           gps.location.lat(),       // 2
@@ -175,27 +178,13 @@ void displayInfo()
           gps.time.second(),        // 6
 
           gps.altitude.meters(),    // 7
-          gps.speed.mph(),           // 8
-          millis() * esp_random()                 // 9
-
+          gps.speed.mph(),          // 8
+          millis() * esp_random(),  // 9
+          voltage                   // 10
   );
 
-  // Serial.println("custom -- " + String(buffer));
   Serial.println("trying to write to sd card");
   logFile = SD.open("/log.txt", FILE_WRITE);
-
-
-  // if (logFile)
-  // {
-  //   Serial.println("writing to log.txt");
-  //   logFile.println(String(buffer));
-  //   logFile.close();
-  //   Serial.println("done writing");
-  // }
-  // else
-  // {
-  //   Serial.println("error opening log.txt");
-  // }
 
   if (!logFile) {
     logFile.close();
@@ -216,14 +205,11 @@ void loop()
     gps.encode(MySerial.read());
   }
 
-  // while (MySerial.available() > 0) {
-  //     uint8_t byteFromSerial = MySerial.read();
-  //     Serial.write(byteFromSerial);
-  // }
-
   if (millis() < statusLedLife) {
+    pinMode(13, OUTPUT);
     digitalWrite(13, HIGH);
   } else {
+    pinMode(13, OUTPUT);
     digitalWrite(13, LOW);
   }
 
