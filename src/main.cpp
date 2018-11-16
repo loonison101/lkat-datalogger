@@ -131,7 +131,7 @@ static void printStr(const char *str, int len)
 
 void displayInfo()
 {
-  float voltage = analogRead(A13);
+  int voltage = analogRead(A13);
 
   printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
   printFloat(gps.hdop.hdop(), gps.hdop.isValid(), 6, 1);
@@ -145,7 +145,7 @@ void displayInfo()
 
   printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.deg()) : "*** ", 6);
 
-  printFloat(voltage, true, 7,2);
+  printInt(voltage, true, 5);
 
   Serial.println();
 
@@ -166,7 +166,7 @@ void displayInfo()
   //pinMode(13, INPUT);
 
   char buffer[1000];
-  sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%0.2f",
+  sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld",
           gps.satellites.value(),   // 0
           gps.hdop.hdop(),          // 1
           gps.location.lat(),       // 2

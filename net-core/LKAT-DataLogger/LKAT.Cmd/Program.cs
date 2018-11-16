@@ -12,6 +12,9 @@ namespace LKAT.Cmd
     public static class CONSTANTS
     {
         public static string DB_PATH = @"./lkat.db";
+        //public static string DB_PATH =
+        //        @" C:\Users\looni\Documents\GitHub\lkat-datalogger\net-core\LKAT-DataLogger\LKAT.Cmd\bin\Debug\netcoreapp2.1\lkat.db"
+        //    ;
         public static string LOG_PATH = @"logs\log.txt";
     }
 
@@ -52,6 +55,9 @@ namespace LKAT.Cmd
     {
         [Option('y', "shouldWrite", Required = false, HelpText = "Defaults to false. Won't actually change file(s) unless this is true, otherwise it will show what it could change")]
         public bool ShouldWrite { get; set; }
+
+        [Option('c', "shouldCreate", Required = false, HelpText = "Defaults to false. If no LOG.TXT is found on destinations it will create it with headers")]
+        public bool ShouldCreate { get; set; }
     }
 
     [Verb("db-count", HelpText = "Gives you stats about the CSV database")]

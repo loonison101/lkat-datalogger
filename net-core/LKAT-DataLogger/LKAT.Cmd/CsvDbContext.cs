@@ -64,5 +64,6 @@ namespace LKAT.Cmd
         public string Uuid { get; set; }
         public float Speed { get; set; }
         public string RawLine { get; set; }
+        public int BatteryVoltage { get; set; }
     }
 }

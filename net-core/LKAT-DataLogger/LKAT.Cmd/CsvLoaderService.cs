@@ -58,6 +58,7 @@ namespace LKAT.Cmd
             while (csvReader.Read())
             {
                 CsvRecord x = csvReader.GetRecord<CsvRecord>();
+                
                 dbRecords.Add(new DbCsvRecord()
                 {
                     Satellites = x.Satellites,
@@ -69,8 +70,8 @@ namespace LKAT.Cmd
                     Altitude = x.Altitude,
                     Uuid = x.Uuid,
                     Speed = x.Speed,
-                    RawLine = x.RawLine
-
+                    RawLine = x.RawLine,
+                    BatteryVoltage = x.BatteryVoltage
                 });
             }
             _logger.Information("Loaded {0} CSV lines", dbRecords.Count);

@@ -3,14 +3,16 @@ using System;
 using LKAT.Cmd;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace LKAT.Cmd.Migrations
 {
     [DbContext(typeof(CsvDbContext))]
-    partial class CsvDbContextModelSnapshot : ModelSnapshot
+    [Migration("20181116184343_AddedBatteryVoltage")]
+    partial class AddedBatteryVoltage
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
