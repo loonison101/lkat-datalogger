@@ -159,7 +159,7 @@ void displayInfo()
 
   // Get our battery voltage
   pinMode(13, INPUT);
-  int voltage = analogRead(13) * 2
+  double voltage = analogRead(13) * 2
 
   char buffer[1000];
   sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld",
