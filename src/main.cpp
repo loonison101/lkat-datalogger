@@ -31,7 +31,8 @@ void setup()
   btStop();
 
   pinMode(chipSelect, OUTPUT);
-  
+  pinMode(13, OUTPUT);
+  pinMode(A13, INPUT);
 
   statusLedLife = millis() + 2000; 
 
@@ -130,6 +131,8 @@ static void printStr(const char *str, int len)
 
 void displayInfo()
 {
+  float voltage = analogRead(A13);
+
   printInt(gps.satellites.value(), gps.satellites.isValid(), 5);
   printFloat(gps.hdop.hdop(), gps.hdop.isValid(), 6, 1);
   printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
@@ -141,6 +144,8 @@ void displayInfo()
   printFloat(gps.speed.mph(), gps.speed.isValid(), 6, 2);
 
   printStr(gps.course.isValid() ? TinyGPSPlus::cardinal(gps.course.deg()) : "*** ", 6);
+
+  printFloat(voltage, true, 7,2);
 
   Serial.println();
 
@@ -158,11 +163,10 @@ void displayInfo()
   lastLongitude = gps.location.lng();
 
   // Get our battery voltage
-  pinMode(13, INPUT);
-  double voltage = analogRead(13) * 2
+  //pinMode(13, INPUT);
 
   char buffer[1000];
-  sprintf(buffer, "%ld,%0.2f,%f, %f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld",
+  sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%0.2f",
           gps.satellites.value(),   // 0
           gps.hdop.hdop(),          // 1
           gps.location.lat(),       // 2
@@ -206,10 +210,10 @@ void loop()
   }
 
   if (millis() < statusLedLife) {
-    pinMode(13, OUTPUT);
+    
     digitalWrite(13, HIGH);
   } else {
-    pinMode(13, OUTPUT);
+    
     digitalWrite(13, LOW);
   }
 
