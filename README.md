@@ -40,3 +40,12 @@ Verify GPX files with meta DB and see what files haven't been added to socially 
 Backup DB
 
 ```dotnet .\LKAT.Cmd.dll backup-db```
+
+#### Setup for a MAC
+**Bugs**
+* The text file needs a new line \n because it logged on my header column
+
+Put your log file on minio
+had to curl -O to download the file
+had to update schema 
+dotnet ef database update
