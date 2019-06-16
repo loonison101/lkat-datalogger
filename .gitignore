@@ -253,3 +253,7 @@ net-core/LKAT-DataLogger/LKAT.Cmd/logs/*.*
 
 *.txt
 *.db
+
+**/.DS_Store
+
+src/secrets.h

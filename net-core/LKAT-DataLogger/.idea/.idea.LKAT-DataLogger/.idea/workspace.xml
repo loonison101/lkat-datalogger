@@ -2,26 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="43e10a1e-ed6e-40bd-849b-aa3f441f5dd3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/contentModel.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/indexLayout.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/riderModule.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LKAT.Cmd/CsvDbContext.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LKAT.Cmd/CsvLoaderService.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LKAT.Cmd/CsvRecord.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LKAT.Cmd/IFileLoader.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LKAT.Cmd/LocalFileLoader.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/LKAT.Cmd/WebFileLoader.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../go/commands/all.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../go/commands/all.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../go/commands/enrich_csv.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../go/commands/enrich_csv.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../go/commands/import.go" beforeDir="false" afterPath="$PROJECT_DIR$/../../go/commands/import.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../go/lkat.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../go/lkat.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../go/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../go/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/contentModel.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/contentModel.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/dataSources/6e728288-02fe-4771-83d3-928e1bcedb33.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/dataSources/6e728288-02fe-4771-83d3-928e1bcedb33.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.LKAT-DataLogger/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LKAT.Cmd/LKAT.Cmd.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/LKAT.Cmd/LKAT.Cmd.csproj" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -54,139 +40,13 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="lkat.db" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="90513b60:SqliteImplModel$Schema" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="lkat.db" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="main: schema" type="90513b60:SqliteImplModel$Schema" />
-        <item name="CsvRecords: table" type="ffe0bd85:SqliteImplModel$Table" />
+        <item name="main: schema" type="981a47c2:SqliteImplModel$Schema" />
       </path>
     </expand>
     <select />
   </component>
-  <component name="FUSProjectUsageTrigger">
-    <session id="-1284855598">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.0" value="1" />
-          <entry key="project.open.time.7" value="1" />
-          <entry key="project.opened" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="cs" value="12" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="C#" value="12" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="cs" value="4162" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="C#" value="4162" />
-        </counts>
-      </usages-collector>
-    </session>
-    <session id="-661409793">
-      <usages-collector id="statistics.lifecycle.project">
-        <counts>
-          <entry key="project.closed" value="2" />
-          <entry key="project.open.time.10" value="1" />
-          <entry key="project.open.time.12" value="1" />
-          <entry key="project.opened" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.edit">
-        <counts>
-          <entry key="cs" value="358" />
-          <entry key="sql" value="47" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.edit">
-        <counts>
-          <entry key="C#" value="358" />
-          <entry key="Scratch" value="47" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.extensions.open">
-        <counts>
-          <entry key="cs" value="5" />
-          <entry key="sql" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.file.types.open">
-        <counts>
-          <entry key="C#" value="5" />
-          <entry key="Scratch" value="2" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.vcs.git.usages" />
-      <usages-collector id="statistics.js.language.service.starts" />
-    </session>
-  </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/LKAT.Test/UnitTest1.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="31" column="33" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
-              <folding>
-                <marker date="1540083020091" expanded="false" signature="6:127" ph="..." />
-                <marker date="1540083020091" expanded="true" signature="148:1178" ph="{...}" />
-                <marker date="1540083020091" expanded="true" signature="177:1176" ph="{...}" />
-                <marker date="1540083020091" expanded="true" signature="241:1170" ph="{...}" />
-                <marker date="1540083020091" expanded="true" signature="556:652" ph="{...}" />
-                <marker date="1540083020091" expanded="true" signature="774:1053" ph="{...}" />
-                <marker date="1540083020091" expanded="true" signature="792:932" ph="/* Linux path ... */" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/LKAT.Cmd/CsvLoaderService.cs">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="482">
-              <caret line="100" column="93" selection-start-line="100" selection-start-column="93" selection-end-line="100" selection-end-column="93" />
-              <folding>
-                <marker date="1540749943676" expanded="true" signature="6:270" ph="..." />
-                <marker date="1540749943676" expanded="true" signature="290:4018" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="326:4016" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="484:566" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="620:4010" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="1109:1579" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="1753:2364" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="1896:2348" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="2438:3786" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="2469:3400" ph="/* We have unique constraints... So only add stuff we haven't added before ... */" />
-                <marker date="1540749943676" expanded="true" signature="3451:3737" ph="{...}" />
-                <marker date="1540749943676" expanded="true" signature="3541:3719" ph="{...}" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/6e728288-02fe-4771-83d3-928e1bcedb33/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
@@ -198,14 +58,16 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/WebFileLoader.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/Program.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/IFileLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/LKAT.Test/UnitTest1.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/CsvRecord.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/LocalFileLoader.cs" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/CsvDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/BackupService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/IFileLoader.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/LKAT.Cmd/CsvLoaderService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/ApplicationStartupValidatorService.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/WebFileLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/LocalFileLoader.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/Program.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/CsvDbContext.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/LKAT.Cmd/CsvRecord.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
@@ -220,17 +82,11 @@
       </list>
     </option>
   </component>
-  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsGulpfileManager">
-    <detection-done>true</detection-done>
-    <sorting>DEFINITION_ORDER</sorting>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="7">
-    <option name="x" value="-1387" />
-    <option name="y" value="205" />
-    <option name="width" value="1076" />
-    <option name="height" value="1082" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="36" />
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="982" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -257,6 +113,7 @@
         </subPane>
         <option name="show-all-files" value="false" />
       </pane>
+      <pane id="AssemblyExplorer" />
       <pane id="FileSystemExplorer" />
     </panes>
   </component>
@@ -280,7 +137,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected=".NET Project.Default">
+  <component name="RunManager">
     <configuration name="Default" type="DotNetProject" factoryName=".NET Project">
       <option name="EXE_PATH" value="$PROJECT_DIR$/LKAT.Cmd/bin/Debug/netcoreapp2.1/LKAT.Cmd.dll" />
       <option name="PROGRAM_PARAMETERS" value="load -s &quot;$PROJECT_DIR$/../../generated/ep62srJig-v2.csv&quot;" />
@@ -304,9 +161,6 @@
         <option name="Build" enabled="true" />
       </method>
     </configuration>
-    <list>
-      <item itemvalue=".NET Project.Default" />
-    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -322,11 +176,13 @@
       <workItem from="1539570861054" duration="473000" />
       <workItem from="1540082517076" duration="6438000" />
       <workItem from="1540741969674" duration="5977000" />
+      <workItem from="1554657804345" duration="140000" />
+      <workItem from="1554657968108" duration="1720000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="31367000" />
+    <option name="totallyTimeSpent" value="33227000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -338,19 +194,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-1815" y="-8" width="1823" height="1096" extended-state="6" />
+    <frame x="36" y="23" width="1920" height="982" extended-state="0" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.14123653" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.16347177" />
       <window_info id="Structure" order="2" side_tool="true" weight="0.25" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
-      <window_info active="true" anchor="bottom" id="Unit Tests" order="1" visible="true" weight="0.30010384" />
-      <window_info anchor="bottom" id="Terminal" order="2" weight="0.13914849" />
+      <window_info anchor="bottom" id="Unit Tests" order="1" sideWeight="0.49840257" weight="0.29948187" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="2" sideWeight="0.6048988" visible="true" weight="0.58539325" />
       <window_info anchor="bottom" id="Database Changes" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="4" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="4" sideWeight="0.39510116" side_tool="true" weight="0.30362695" />
       <window_info anchor="bottom" id="Version Control" order="5" show_stripe_button="false" />
       <window_info anchor="bottom" id="Change Signature" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Build" order="7" weight="0.28764278" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49946752" weight="0.15751295" />
       <window_info anchor="bottom" id="NuGet" order="8" weight="0.44117647" />
       <window_info anchor="bottom" id="Message" order="9" />
       <window_info anchor="bottom" id="Find" order="10" />
@@ -359,13 +217,14 @@
       <window_info anchor="bottom" id="Cvs" order="13" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="14" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="15" />
-      <window_info anchor="bottom" id="Database Console" order="16" weight="0.32917964" />
-      <window_info anchor="right" id="Database" order="0" visible="true" weight="0.32898468" />
+      <window_info anchor="bottom" id="Database Console" order="16" sideWeight="0.49893504" weight="0.3284974" />
+      <window_info anchor="right" id="Database" order="0" visible="true" weight="0.18104367" />
       <window_info anchor="right" id="Errors In Solution" order="1" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="2" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="3" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="4" weight="0.25" />
       <window_info anchor="right" id="Unit Tests Coverage" order="5" />
+      <window_info anchor="right" id="Capture Analysis" order="6" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -373,9 +232,6 @@
   </component>
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="UnityUnitTestConfiguration" currentTestLauncher="NUnit" />
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -505,46 +361,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/6e728288-02fe-4771-83d3-928e1bcedb33/console.sql">
+    <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/6e728288-02fe-4771-83d3-928e1bcedb33/console.sql" />
+    <entry file="file://$PROJECT_DIR$/LKAT.Test/UnitTest1.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
+        <state relative-caret-position="315">
+          <caret line="31" column="33" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
+          <folding>
+            <marker date="1554652968646" expanded="false" signature="6:183" ph="..." />
+            <marker date="1554652968646" expanded="true" signature="204:2404" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="233:2402" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="298:918" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="522:801" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="540:680" ph="/* Linux path ... */" />
+            <marker date="1554652968646" expanded="true" signature="966:1211" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="1221:1403" ph="/* We need a way that once gpx files are created, that there are records in a DB to keep track of them ... */" />
+            <marker date="1554652968646" expanded="true" signature="1459:2020" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="1528:1612" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="2078:2396" ph="{...}" />
+            <marker date="1554652968646" expanded="true" signature="2210:2261" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="das://6e728288-02fe-4771-83d3-928e1bcedb33/schema/main/table/CsvRecords">
+      <provider selected="true" editor-type-id="com.intellij.database.editor.DatabaseTableFileEditorProvider">
+        <state>
+          <filtering enabled="true" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/LKAT.Cmd/CsvLoaderService.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="482">
-          <caret line="100" column="93" selection-start-line="100" selection-start-column="93" selection-end-line="100" selection-end-column="93" />
+        <state relative-caret-position="435">
+          <caret line="39" column="13" lean-forward="true" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
           <folding>
-            <marker date="1540749943676" expanded="true" signature="6:270" ph="..." />
-            <marker date="1540749943676" expanded="true" signature="290:4018" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="326:4016" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="484:566" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="620:4010" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="1109:1579" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="1753:2364" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="1896:2348" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="2438:3786" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="2469:3400" ph="/* We have unique constraints... So only add stuff we haven't added before ... */" />
-            <marker date="1540749943676" expanded="true" signature="3451:3737" ph="{...}" />
-            <marker date="1540749943676" expanded="true" signature="3541:3719" ph="{...}" />
+            <marker date="1554652968644" expanded="false" signature="6:270" ph="..." />
+            <marker date="1554652968644" expanded="true" signature="290:3474" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="326:3472" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="484:566" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="620:3466" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="1109:1637" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="1127:1581" ph="/* HeaderValidated = null, ... */" />
+            <marker date="1554652968644" expanded="true" signature="1864:2546" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="2024:2530" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="2669:3236" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="2762:3187" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="2852:3030" ph="{...}" />
+            <marker date="1554652968644" expanded="true" signature="3313:3415" ph="/* File.Delete(fileName); ... */" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LKAT.Test/UnitTest1.cs">
+    <entry file="file://$PROJECT_DIR$/LKAT.Cmd/BackupService.cs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="31" column="33" selection-start-line="31" selection-start-column="33" selection-end-line="31" selection-end-column="33" />
+        <state relative-caret-position="60">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
           <folding>
-            <marker date="1540083020091" expanded="false" signature="6:127" ph="..." />
-            <marker date="1540083020091" expanded="true" signature="148:1178" ph="{...}" />
-            <marker date="1540083020091" expanded="true" signature="177:1176" ph="{...}" />
-            <marker date="1540083020091" expanded="true" signature="241:1170" ph="{...}" />
-            <marker date="1540083020091" expanded="true" signature="556:652" ph="{...}" />
-            <marker date="1540083020091" expanded="true" signature="774:1053" ph="{...}" />
-            <marker date="1540083020091" expanded="true" signature="792:932" ph="/* Linux path ... */" />
+            <marker date="1554652968643" expanded="false" signature="6:160" ph="..." />
+            <marker date="1554652968643" expanded="true" signature="180:1489" ph="{...}" />
+            <marker date="1554652968643" expanded="true" signature="213:1487" ph="{...}" />
+            <marker date="1554652968643" expanded="true" signature="305:355" ph="{...}" />
+            <marker date="1554652968643" expanded="true" signature="406:1481" ph="{...}" />
+            <marker date="1554652968643" expanded="true" signature="697:1471" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LKAT.Cmd/ApplicationStartupValidatorService.cs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="6" lean-forward="true" selection-start-column="6" selection-end-column="6" />
+          <folding>
+            <marker date="1554652968643" expanded="true" signature="6:105" ph="..." />
+            <marker date="1554652968643" expanded="true" signature="125:1245" ph="{...}" />
+            <marker date="1554652968643" expanded="true" signature="132:1241" ph="/* public class ApplicationStartupValidatorService ... */" />
           </folding>
         </state>
       </provider>

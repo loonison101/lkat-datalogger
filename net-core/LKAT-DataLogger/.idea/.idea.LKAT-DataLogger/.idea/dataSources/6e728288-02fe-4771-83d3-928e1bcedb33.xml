@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="lkat.db">
-  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.11">
+  <database-model serializer="dbm" dbms="SQLITE" family-id="SQLITE" format-version="4.14">
     <root id="1">
       <ServerVersion>3.25.1</ServerVersion>
     </root>
@@ -76,7 +76,6 @@
     <index id="21" parent="6" name="sqlite_autoindex_CsvRecords_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Uuid</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="22" parent="6">
@@ -100,7 +99,6 @@
     <index id="26" parent="7" name="sqlite_autoindex___EFMigrationsHistory_1">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>MigrationId</ColNames>
-      <ColumnCollations></ColumnCollations>
       <Unique>1</Unique>
     </index>
     <key id="27" parent="7" name="PK___EFMigrationsHistory">

@@ -49,3 +49,6 @@ Put your log file on minio
 had to curl -O to download the file
 had to update schema 
 dotnet ef database update
+
+
+=============================
