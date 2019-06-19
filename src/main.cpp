@@ -6,6 +6,9 @@
 #include <HTTPClient.h>
 #include "secrets.h"
 #include <test.h>
+#include <Chrono.h>
+#include <StringHelper.h>
+#include <FileHelper.h>
 
 Sd2Card card;
 SdVolume volume;
@@ -25,40 +28,6 @@ double lastLongitude = 0;
 uint32_t statusLedLife;
 HTTPClient http;
 
-String getValuee(String data, char separator, int index)
-{
-  int found = 0;
-  int strIndex[] = {0, -1};
-  int maxIndex = data.length()-1;
-
-  for(int i=0; i<=maxIndex && found<=index; i++){
-    if(data.charAt(i)==separator || i==maxIndex){
-        found++;
-        strIndex[0] = strIndex[1]+1;
-        strIndex[1] = (i == maxIndex) ? i+1 : i;
-    }
-  }
-
-  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
-}
-
-int rdataf(uint8_t *buffer, int len) {
-      //read file to upload
-      if (logFile.available()) {
-        return logFile.read(buffer, len);
-      }
-      return 0;
-    }
-
-    void progressf(int percent){
-  Serial.printf("%d\n", percent);
-}
-
-int responsef(uint8_t *buffer, int len){
-  Serial.printf("%s\n", buffer);
-  return 0;
-}
-
 String output;
 void setup()
 {
@@ -74,7 +43,7 @@ void setup()
   // pinMode(13, OUTPUT);
   // pinMode(A13, INPUT);
 
-  // statusLedLife = millis() + 2000; 
+  // statusLedLife = millis() + 2000;
 
   // Serial.println("trying");
 
@@ -92,35 +61,26 @@ void setup()
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED)
+  {
     delay(500);
     Serial.println("Connecting to WiFi..");
   }
-   Serial.println("WiFi connected");
-    Serial.println("IP address: ");
-    Serial.println(WiFi.localIP());
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
 
   Serial.println("opening file to read...");
   logFile = SD.open("/log.txt", FILE_READ);
-  Serial.println("opened");
-  Serial.println(logFile.size());
 
-  int seekTo = logFile.size() - 1000;
-  Serial.println("seeking to");
-  Serial.println(seekTo);
-
-  logFile.seek(seekTo);
-  while (logFile.available()) {
-    output = logFile.readStringUntil('\n');
-  }
-
+  output = getLastLineOfFile(logFile);
   Serial.println(output);
-    // logFile.println(String(buffer));
-    logFile.close();
-    Serial.println("done reading");
+
+  logFile.close();
+  Serial.println("done reading");
 
   Serial.println("last unique value");
-  String lastUniqueValue = getValuee(output, ',', 9);
+  String lastUniqueValue = splitString(output, ',', 9);
   Serial.println(lastUniqueValue);
 
   // Does the file exist?
@@ -132,7 +92,8 @@ void setup()
   Serial.println("status code");
   Serial.println(httpCode);
 
-  if (httpCode == 404) {
+  if (httpCode == 404)
+  {
     // UDHttp udh;
     Serial.print("the heap size: ");
     Serial.println(ESP.getFreeHeap());
@@ -142,8 +103,6 @@ void setup()
     // Serial.println(sizeof(bufftest));
     // return;
 
-    
-
     Serial.println("Not uploading, we are testing airtable now");
     HTTPClient airtableClient;
     airtableClient.begin(AIRTABLE_BASE_URL);
@@ -151,13 +110,14 @@ void setup()
     airtableClient.addHeader("Content-Type", "application/json");
 
     int airtableResponseCode = airtableClient.POST(
-      "{\
+        "{\
           \"fields\": { \
-            \"Name\": \""+lastUniqueValue+"\",\
-            \"File\": [{\"filename\": \"log.txt\", \"url\": \""+S3_BUCKET_URL+"LOG.TXT\"}]\
+            \"Name\": \"" +
+        lastUniqueValue + "\",\
+            \"File\": [{\"filename\": \"log.txt\", \"url\": \"" +
+        S3_BUCKET_URL + "LOG.TXT\"}]\
           }\
-      }"
-    );
+      }");
     Serial.print("airtable response: ");
     Serial.println(airtableResponseCode);
     Serial.println(airtableClient.getString());
@@ -165,7 +125,7 @@ void setup()
 
     return;
     Serial.println("Time to upload");
-    
+
     // logFile = SD.open("/sample.txt", FILE_READ);
     logFile = SD.open("/log.txt", FILE_READ);
     Serial.println("file opened");
@@ -184,25 +144,22 @@ void setup()
     // temp.toCharArray(uniqueValueBuffer, 50);
 
     // udh.upload(AIRTABLE_BASE_URL, uniqueValueBuffer, logFile.size(), rdataf, progressf, responsef);
-    // HTTPClient http2;  
+    // HTTPClient http2;
     // http2.begin("AIRTABLE_BASE_URL/ahhh6.txt");
-    
-    
+
     // WORKS!!!!!!
     // String myString = "hey im all kinds of data";
     // unsigned char buffer2[myString.length()];
-    
+
     // myString.getBytes(buffer2, myString.length());
     // int resultCode = http2.PUT(buffer2, sizeof(buffer2));
     // Serial.println("done uploading file");
     // Serial.println(resultCode);
     // Serial.println("after result code");
     // WORKS!!!!
-  
+
     // uint8_t buffer2[logFile.size()];
     // logFile.readBytes(buffer2, logFile.size());
-
-
 
     // myString.getBytes(buffer2, myString.length());
     // Serial.println(buffer2);
@@ -210,7 +167,6 @@ void setup()
     // Serial.println("done uploading file");
     // Serial.println(resultCode);
     // Serial.println("after result code");
-
 
     // UDHttp udh;
     // udh.upload(AIRTABLE_BASE_URL, "ahhh6.txt", logFile.size(), rdataf, progressf, responsef);
@@ -220,9 +176,12 @@ void setup()
     int maxSize = 200000;
     char bigBuffer[maxSize];
     int counter = 0;
-    unsigned long start = micros();
-    if (client.connect(AIRTABLE_BASE_URL, 80)) {
-       client.println(F("PUT /ahhh9.txt HTTP/1.1"));
+    // unsigned long start = micros();
+    Chrono chrono(Chrono::SECONDS);
+    chrono.start();
+    if (client.connect(AIRTABLE_BASE_URL, 80))
+    {
+      client.println(F("PUT /ahhh9.txt HTTP/1.1"));
       client.print(F("Host: "));
       client.println(AIRTABLE_BASE_URL);
       client.println(F("Connection: close"));
@@ -232,7 +191,7 @@ void setup()
       // WORKS
       // while (logFile.available()) {
       //     client.write(logFile.read());
-          
+
       // }
       // WORKS
 
@@ -273,31 +232,30 @@ void setup()
       client.write(logFile);
 
       client.stop();
-      
-      while(client.available()) {
+
+      while (client.available())
+      {
         String line = client.readStringUntil('\r');
         Serial.print(line);
       }
       Serial.println("Done postint to s3");
-
-    } else {
+    }
+    else
+    {
       Serial.println("Failed to connect for client");
     }
-    unsigned long end = micros();
-    unsigned long delta = end - start;
-    unsigned long seconds = delta / 1000000;
+
+    chrono.stop();
     Serial.print("Upload took: ");
-    Serial.print(seconds);
+    Serial.print(chrono.elapsed());
     Serial.println(" seconds");
 
     logFile.close();
     Serial.println("done uploading");
     // http.PUT(buffer2, logFile.size());
-
-
-
-    
-  } else {
+  }
+  else
+  {
     Serial.println("Http code was other than 404");
   }
 }
@@ -331,8 +289,6 @@ static void printFloat(float val, bool valid, int len, int prec)
   }
   smartDelay(0);
 }
-
-
 
 static void printInt(unsigned long val, bool valid, int len)
 {
@@ -410,7 +366,8 @@ void displayInfo()
     return;
   }
 
-  if (gps.location.lat() == lastLatitude && gps.location.lng() == lastLongitude) {
+  if (gps.location.lat() == lastLatitude && gps.location.lng() == lastLongitude)
+  {
     Serial.println("The latitude & longitude have not change, no reason to persist");
     return;
   }
@@ -422,40 +379,39 @@ void displayInfo()
 
   char buffer[1000];
   sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld",
-          gps.satellites.value(),   // 0
-          gps.hdop.hdop(),          // 1
-          gps.location.lat(),       // 2
-          gps.location.lng(),       // 3
-          gps.location.age(),       // 4
+          gps.satellites.value(), // 0
+          gps.hdop.hdop(),        // 1
+          gps.location.lat(),     // 2
+          gps.location.lng(),     // 3
+          gps.location.age(),     // 4
 
-          gps.date.month(),         // 5
-          gps.date.day(),           // 5
-          gps.date.year(),          // 5
+          gps.date.month(), // 5
+          gps.date.day(),   // 5
+          gps.date.year(),  // 5
 
-          gps.time.hour(),          // 6
-          gps.time.minute(),        // 6
-          gps.time.second(),        // 6
+          gps.time.hour(),   // 6
+          gps.time.minute(), // 6
+          gps.time.second(), // 6
 
-          gps.altitude.meters(),    // 7
-          gps.speed.mph(),          // 8
-          millis() * esp_random(),  // 9
-          voltage                   // 10
+          gps.altitude.meters(),   // 7
+          gps.speed.mph(),         // 8
+          millis() * esp_random(), // 9
+          voltage                  // 10
   );
 
   Serial.println("trying to write to sd card");
   logFile = SD.open("/log.txt", FILE_WRITE);
 
-  if (!logFile) {
+  if (!logFile)
+  {
     logFile.close();
   }
 
-logFile = SD.open("/log.txt", FILE_WRITE);
+  logFile = SD.open("/log.txt", FILE_WRITE);
   Serial.println("writing to log.txt");
-    logFile.println(String(buffer));
-    logFile.close();
-    Serial.println("done writing");
-
-
+  logFile.println(String(buffer));
+  logFile.close();
+  Serial.println("done writing");
 }
 void loop()
 {
@@ -467,7 +423,7 @@ void loop()
   // if (millis() < statusLedLife)
   // {
   //   digitalWrite(13, HIGH);
-  // } else 
+  // } else
   // {
   //   digitalWrite(13, LOW);
   // }
@@ -477,7 +433,8 @@ void loop()
   //   displayInfo();
   //   nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
   // }
-  if (nextSerialTaskTs < millis()) {
+  if (nextSerialTaskTs < millis())
+  {
     Serial.println("im here loop");
     nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
   }
