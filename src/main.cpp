@@ -9,6 +9,7 @@
 #include <Chrono.h>
 #include <StringHelper.h>
 #include <FileHelper.h>
+#include <WebHelper.h>
 
 Sd2Card card;
 SdVolume volume;
@@ -85,14 +86,9 @@ void setup()
 
   // Does the file exist?
   String url = S3_BUCKET_URL + lastUniqueValue + ".txt";
-  Serial.println("Seeing if url exists: " + url);
-  http.begin(url);
-  int httpCode = http.GET();
-  http.end(); // Free up resources
-  Serial.println("status code");
-  Serial.println(httpCode);
+  bool s3FileExists = doesWebResourceExist(url);
 
-  if (httpCode == 404)
+  if (s3FileExists)
   {
     // UDHttp udh;
     Serial.print("the heap size: ");
