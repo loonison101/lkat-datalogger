@@ -9,4 +9,6 @@
 // String getLastLineOfFile(File &file);
 bool doesWebResourceExist(String url);
 
+void uploadFile(File &file, String filename, char *url);
+
 #endif
