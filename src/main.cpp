@@ -52,6 +52,7 @@ void setup()
   // Show LED that we are starting up
   digitalWrite(13, HIGH);
 
+  // Whether we have wifi or not, we need SD card for the loop
   while (!SD.begin(33, 18, 19, 5))
   {
     Serial.println("initialization failed. Things to check:");
@@ -62,10 +63,19 @@ void setup()
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
-  while (WiFi.status() != WL_CONNECTED)
+  int wifiConnectAttempts = 0;
+  while (WiFi.status() != WL_CONNECTED && wifiConnectAttempts <= WIFI_CONNECT_TRY_COUNT)
   {
-    delay(500);
+    delay(1000);
     Serial.println("Connecting to WiFi..");
+    wifiConnectAttempts++;
+  }
+
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.print("Couldn't connect to: "); Serial.println(WIFI_SSID);
+    turnOffWifi();
+    digitalWrite(13, LOW);
+    return;
   }
 
   Serial.print("WiFi connected, IP address: ");
