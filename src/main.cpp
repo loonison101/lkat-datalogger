@@ -3,7 +3,6 @@
 #include <SPI.h>
 #include <mySD.h>
 #include <WiFi.h>
-#include <HTTPClient.h>
 #include "secrets.h"
 #include <test.h>
 #include <Chrono.h>
@@ -11,23 +10,13 @@
 #include <FileHelper.h>
 #include <WebHelper.h>
 #include <AirtableHelper.h>
-#include <HTTPClient.h>
 
-/*
-  SHIFT + OPTION + F - formatl all code
- */
-
-Sd2Card card;
-SdVolume volume;
-SdFile root;
 File logFile;
-
-const int chipSelect = 33;
-
 HardwareSerial MySerial(1);
 TinyGPSPlus gps;
 uint32_t nextSerialTaskTs = 0;
 
+// Keeps track of our last GPS points so we don't log the same coordinates over and over
 double lastLatitude = 0;
 double lastLongitude = 0;
 
@@ -36,11 +25,11 @@ double lastLongitude = 0;
 // in 4 seperate sessions in a day.
 uint32_t sessionId;
 
-HTTPClient http;
-
-static void turnOffWifi() {
+static void onSetupDone()
+{
   WiFi.mode(WIFI_OFF);
   btStop();
+  digitalWrite(LED_BUILTIN, LOW);
 }
 
 void setup()
@@ -50,12 +39,12 @@ void setup()
   Serial.println("Starting up...");
   MySerial.begin(9600, SERIAL_8N1, 16, 17);
 
-  pinMode(chipSelect, OUTPUT);
-  pinMode(13, OUTPUT);
+  pinMode(CHIP_SELECT_PIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
   pinMode(A13, INPUT);
 
   // Show LED that we are starting up
-  digitalWrite(13, HIGH);
+  digitalWrite(LED_BUILTIN, HIGH);
 
   // Whether we have wifi or not, we need SD card for the loop
   while (!SD.begin(33, 18, 19, 5))
@@ -67,10 +56,10 @@ void setup()
   }
 
   // Do we want to upload anything?
-  if (!SHOULD_UPLOAD_DATA) {
+  if (!SHOULD_UPLOAD_DATA)
+  {
     Serial.print("You do not want to upload anything");
-    turnOffWifi();
-    digitalWrite(13, LOW);
+    onSetupDone();
     return;
   }
 
@@ -84,10 +73,11 @@ void setup()
     wifiConnectAttempts++;
   }
 
-  if (WiFi.status() != WL_CONNECTED) {
-    Serial.print("Couldn't connect to: "); Serial.println(WIFI_SSID);
-    turnOffWifi();
-    digitalWrite(13, LOW);
+  if (WiFi.status() != WL_CONNECTED)
+  {
+    Serial.print("Couldn't connect to: ");
+    Serial.println(WIFI_SSID);
+    onSetupDone();
     return;
   }
 
@@ -96,20 +86,20 @@ void setup()
 
   logFile = SD.open("/log.txt", FILE_READ);
 
-  String output;
-  output = getLastLineOfFile(logFile);
+  String output = getLastLineOfFile(logFile);
   Serial.print("Last line of file: ");
   Serial.println(output);
   logFile.close();
-  
-  if (output.indexOf("Uuid")) {
+
+  // If there is no data in the file, then just the header is there
+  if (output.indexOf("Uuid"))
+  {
     Serial.println("No data in csv file, not uploading");
-    turnOffWifi();
-    digitalWrite(13, LOW);
+    onSetupDone();
     return;
   }
 
-  String lastUniqueValue = splitString(output, ',', 9);
+  String lastUniqueValue = splitString(output, ',', CSV_COLUMN_UUID_INDEX);
   String newFilenameWithExtension = lastUniqueValue + ".txt";
   Serial.print("New filename with extension: ");
   Serial.println(newFilenameWithExtension);
@@ -117,21 +107,21 @@ void setup()
   // Does the file exist?
   String slash = "/";
   String urlWithFile = S3_BUCKET_URL + slash + newFilenameWithExtension;
-  Serial.print("Url with filename: ");Serial.println(urlWithFile);
+  Serial.print("Url with filename: ");
+  Serial.println(urlWithFile);
 
   bool s3FileExists = doesWebResourceExist(urlWithFile);
 
   if (s3FileExists)
   {
     Serial.println("S3 file already exists");
-    turnOffWifi();
-    digitalWrite(13, LOW);
+    onSetupDone();
     return;
   }
 
   Serial.println("Uploading to S3...");
   logFile = SD.open("/log.txt", FILE_READ);
-  
+
   Chrono chrono(Chrono::SECONDS);
   chrono.start();
   uploadFile(logFile, newFilenameWithExtension, S3_BUCKET_URL);
@@ -144,14 +134,10 @@ void setup()
 
   AirtableHelper airtableHelper(AIRTABLE_BASE_URL, AIRTABLE_KEY);
   airtableHelper.createAirtableRecord(newFilenameWithExtension, urlWithFile);
-  
 
   Serial.println("Everything done, turning off wifi");
-  turnOffWifi();
-  digitalWrite(13, LOW);
+  onSetupDone();
 }
-
-
 
 static void smartDelay(unsigned long ms)
 {
@@ -237,7 +223,7 @@ static void printStr(const char *str, int len)
 // https://stackoverflow.com/questions/18971533/c-comparison-of-two-double-values-not-working-properly?lq=1
 bool double_equals(double a, double b, double epsilon = 0.001)
 {
-    return std::abs(a - b) < epsilon;
+  return std::abs(a - b) < epsilon;
 }
 
 void displayInfo()
@@ -266,17 +252,13 @@ void displayInfo()
     return;
   }
 
-  if (double_equals(gps.location.lat(), lastLatitude) 
-        && double_equals(gps.location.lng(), lastLongitude))
+  if (double_equals(gps.location.lat(), lastLatitude) && double_equals(gps.location.lng(), lastLongitude))
   {
     Serial.println("The latitude & longitude have not change, no reason to persist");
     return;
   }
   lastLatitude = gps.location.lat();
   lastLongitude = gps.location.lng();
-
-  // Get our battery voltage
-  //pinMode(13, INPUT);
 
   char buffer[1000];
   sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld,%d",
@@ -294,13 +276,14 @@ void displayInfo()
           gps.time.minute(), // 6
           gps.time.second(), // 6
 
-          gps.altitude.meters(),  // 7
-          gps.speed.mph(),        // 8
-          millis() * esp_random(),// 9
-          voltage,                // 10
-          sessionId               // 11
+          gps.altitude.meters(),   // 7
+          gps.speed.mph(),         // 8
+          millis() * esp_random(), // 9
+          voltage,                 // 10
+          sessionId                // 11
   );
 
+  // Open and close it every time to clear buffer in case power outage, uses more power but #whocares
   logFile = SD.open("/log.txt", FILE_WRITE);
 
   if (!logFile)
@@ -314,6 +297,7 @@ void displayInfo()
   logFile.close();
   Serial.println("done writing");
 }
+
 void loop()
 {
   while (MySerial.available() > 0)
@@ -324,10 +308,6 @@ void loop()
   if (nextSerialTaskTs < millis())
   {
     displayInfo();
-    nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
-  }
-  if (nextSerialTaskTs < millis())
-  {
     nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
   }
 }
