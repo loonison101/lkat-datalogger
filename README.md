@@ -52,3 +52,11 @@ dotnet ef database update
 
 
 =============================
+
+
+### Embedded Setup
+* `git clone https://github.com/lanekatris/lkat-datalogger`
+* cd lkat-datalogger
+* cp src/secrets.h.example src/secrets.h
+* Fill out `src/secrets.h` with your data with these pictures on setting up S3 and stuff
+* build by pressing this image
