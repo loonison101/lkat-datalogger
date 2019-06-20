@@ -31,6 +31,11 @@ uint32_t nextSerialTaskTs = 0;
 double lastLatitude = 0;
 double lastLongitude = 0;
 
+// Every time we start this device it's helpful to know all the gps points are correlated
+// during a power on session. So you could hike 4 times in a day, and easily know you were
+// in 4 seperate sessions in a day.
+uint32_t sessionId;
+
 HTTPClient http;
 
 static void turnOffWifi() {
@@ -41,7 +46,7 @@ static void turnOffWifi() {
 void setup()
 {
   Serial.begin(115200);
-  delay(100);
+
   Serial.println("Starting up...");
   MySerial.begin(9600, SERIAL_8N1, 16, 17);
 
@@ -59,6 +64,14 @@ void setup()
     Serial.println("* is a card is inserted?");
     Serial.println("* Is your wiring correct?");
     Serial.println("* did you change the chipSelect pin to match your shield or module?");
+  }
+
+  // Do we want to upload anything?
+  if (!SHOULD_UPLOAD_DATA) {
+    Serial.print("You do not want to upload anything");
+    turnOffWifi();
+    digitalWrite(13, LOW);
+    return;
   }
 
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
@@ -88,6 +101,13 @@ void setup()
   Serial.print("Last line of file: ");
   Serial.println(output);
   logFile.close();
+  
+  if (output.indexOf("Uuid")) {
+    Serial.println("No data in csv file, not uploading");
+    turnOffWifi();
+    digitalWrite(13, LOW);
+    return;
+  }
 
   String lastUniqueValue = splitString(output, ',', 9);
   String newFilenameWithExtension = lastUniqueValue + ".txt";
@@ -213,6 +233,13 @@ static void printStr(const char *str, int len)
   smartDelay(0);
 }
 
+// You can't compare doubles with == due to rounding errors
+// https://stackoverflow.com/questions/18971533/c-comparison-of-two-double-values-not-working-properly?lq=1
+bool double_equals(double a, double b, double epsilon = 0.001)
+{
+    return std::abs(a - b) < epsilon;
+}
+
 void displayInfo()
 {
   int voltage = analogRead(A13);
@@ -239,7 +266,8 @@ void displayInfo()
     return;
   }
 
-  if (gps.location.lat() == lastLatitude && gps.location.lng() == lastLongitude)
+  if (double_equals(gps.location.lat(), lastLatitude) 
+        && double_equals(gps.location.lng(), lastLongitude))
   {
     Serial.println("The latitude & longitude have not change, no reason to persist");
     return;
@@ -251,7 +279,7 @@ void displayInfo()
   //pinMode(13, INPUT);
 
   char buffer[1000];
-  sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld",
+  sprintf(buffer, "%ld,%0.2f,%f,%f,%ld,%02d/%02d/%02d,%02d:%02d:%02d,%f,%f,%ld,%ld,%d",
           gps.satellites.value(), // 0
           gps.hdop.hdop(),        // 1
           gps.location.lat(),     // 2
@@ -266,13 +294,13 @@ void displayInfo()
           gps.time.minute(), // 6
           gps.time.second(), // 6
 
-          gps.altitude.meters(),   // 7
-          gps.speed.mph(),         // 8
-          millis() * esp_random(), // 9
-          voltage                  // 10
+          gps.altitude.meters(),  // 7
+          gps.speed.mph(),        // 8
+          millis() * esp_random(),// 9
+          voltage,                // 10
+          sessionId               // 11
   );
 
-  Serial.println("trying to write to sd card");
   logFile = SD.open("/log.txt", FILE_WRITE);
 
   if (!logFile)
@@ -288,19 +316,18 @@ void displayInfo()
 }
 void loop()
 {
-  // while (MySerial.available() > 0)
-  // {
-  //   gps.encode(MySerial.read());
-  // }
+  while (MySerial.available() > 0)
+  {
+    gps.encode(MySerial.read());
+  }
 
-  // if (nextSerialTaskTs < millis())
-  // {
-  //   displayInfo();
-  //   nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
-  // }
-  // if (nextSerialTaskTs < millis())
-  // {
-  //   Serial.println("im here loop");
-  //   nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
-  // }
+  if (nextSerialTaskTs < millis())
+  {
+    displayInfo();
+    nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
+  }
+  if (nextSerialTaskTs < millis())
+  {
+    nextSerialTaskTs = millis() + TASK_SERIAL_RATE;
+  }
 }
