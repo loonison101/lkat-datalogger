@@ -53,6 +53,24 @@ dotnet ef database update
 
 =============================
 
+### Timeline
+**CLI Application**
+1) Built parsing application in GoLang. Didn't care for looking at it
+2) Built parsing application in .NET core. Looked better but not as easy to use as I woudl like
+3) I'm either going to improve the .NET version or write in JavaScript
+
+**Embedded Application**
+1) Tried Circut Python but wasn't compatible or I had issues
+2) Installed micropython, but certain libraries didn't work
+3) Ended up with typical c++ since I know it would work with libraries from Adafruit
+
+### Project Goals
+**Embedded Phases**
+
+* Phase 1 - Log GPS coordinates to CSV and manually transfer SD card to get data
+* Phase 2 - Upload data to the cloud
+* Phase 3 - Make parsing appication easier to use
+
 
 ### Embedded Setup
 * `git clone https://github.com/lanekatris/lkat-datalogger`
