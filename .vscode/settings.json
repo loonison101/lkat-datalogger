@@ -15,7 +15,7 @@
     },
     "python.pythonPath": "/usr/bin/python3.6",
     "terminal.integrated.env.osx": {
-        "PATH": "/Users/lane/.platformio/penv/bin:/Users/lane/.platformio/penv:/Users/lane/Library/Android/sdk/platform-tools:/Users/lane/Downloads/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/bin",
+        "PATH": "/Users/lane/.platformio/penv/bin:/Users/lane/.platformio/penv:/Users/lane/.nvm/versions/node/v10.16.1/bin:/Users/lane/.yarn/bin:/Users/lane/.config/yarn/global/node_modules/.bin:/usr/local/opt/node@10/bin:/Users/lane/Library/Android/sdk/platform-tools:/Users/lane/Downloads/google-cloud-sdk/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/usr/local/bin",
         "PLATFORMIO_CALLER": "vscode"
     },
     "terminal.integrated.env.windows": {
